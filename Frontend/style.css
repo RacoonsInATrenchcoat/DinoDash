@@ -1,0 +1,89 @@
+/* style.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    overflow: hidden;
+}
+
+.Topbar{
+    background-color: #3c5033;
+}
+
+#game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: #56664f;
+    overflow: hidden;
+    border: 2px solid #000;
+}
+
+#dino {
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    width: 75px;
+    height: 75px;
+    background-color: #000;
+}
+
+#cactus {
+    position: absolute;
+    bottom: 50px; /* At the bottom of the container */
+    right: -50px; /* Slightly off the screen to make it "appear" moving in */
+    width: 25px;
+    height: 50px;
+    background-color: #0a0; /* Green cactus */
+}
+
+.gameContainer{
+
+}
+
+.popUpMenu {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;    /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    width: 300px;           /* Set a fixed width */
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7);  /* Semi-transparent background */
+    border-radius: 10px;
+    position: absolute;     /* Position absolutely to place it on top of the screen */
+    top: 50%;               /* Center vertically */
+    left: 50%;              /* Center horizontally */
+    transform: translate(-50%, -50%); /* Corrects the positioning to actually center it */
+}
+
+.popUpMenu img {
+    max-width: 200px;  /* Set a max size for the images */
+    margin: 10px;
+}
+
+.menuText{
+    color: white;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.CurrentScore{
+    color: white;
+    font-size: 16px;
+}
+
+.scoreText{
+    color: white;
+    font-size: 16px; 
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
