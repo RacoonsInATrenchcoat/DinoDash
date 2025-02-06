@@ -41,7 +41,7 @@ document.addEventListener('keydown', (event) => {
 
 function jump() {
     isJumping = true;
-    let position = 50;
+    let position = 60;
 
     const upInterval = setInterval(() => {
         if (position >= 250) {
@@ -49,9 +49,9 @@ function jump() {
 
             // Falling down
             const downInterval = setInterval(() => {
-                if (position <= 50) {
+                if (position <= 60) {
                     clearInterval(downInterval);
-                    position = 50; // Ensure position is exactly 0
+                    position = 60; // Ensure position is exactly 0
                     isJumping = false;
                 } else {
                     position -= 5;
