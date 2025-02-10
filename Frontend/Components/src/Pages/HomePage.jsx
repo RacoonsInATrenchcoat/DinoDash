@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Gamelogic from "../Gamelogic";
+import { ScoreContext } from "../Context";
 import "../Gamelogic.css";
 
 const Homepage = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
+  const { setScore } = useContext(ScoreContext);
 
   const startGame = () => {
     setGameStarted(true);
     setIsRunning(true);
+    setScore(0);
   };
 
   const pauseGame = () => {

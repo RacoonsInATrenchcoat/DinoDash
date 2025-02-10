@@ -1,73 +1,85 @@
 .game-container {
-    position: relative;
-    width: 100%;
-    height: calc(100vh - 56px);
-    overflow: hidden;
-    background-color: lightblue;
-  }
-  
-  
-  .game-area {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .dino, .cactus {
-    position: absolute;
-    bottom: 60px; /* Ensures both stay aligned */
-  }
-  
-  .dino {
-    left: 100px;
-    width: 50px;
-    height: 50px;
-    background-color: blue;
-  }
-  
-  .cactus {
-    right: 0;
-    width: 30px;
-    height: 50px;
-    background-color: green;
-  }
-  
-  /* PAUSE MENU STYLING */
-  .pause-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 50% grey transparency */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .pause-menu {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-  }
-  
-  .paused {
-    filter: blur(2px); /* Blurs the background when paused */
-  }
-  
-  /* Fullscreen grey overlay */
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 56px);
+  overflow: hidden;
+  background-color: lightblue;
+}
+
+.dino,
+.cactus {
+  position: absolute;
+  bottom: 60px;
+  /* Ensures both stay aligned */
+}
+
+.dino {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background-image: url("../../Components/src/assets/lizardwizard_150x150.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 10;
+}
+
+.cactus {
+  position: absolute;
+  width: 30px;
+  height: 50px;
+  background-color: green;
+  z-index: 10;
+}
+
+/*Extra assurance to show*/
+.game-entities {
+  position: absolute;
+  bottom: 60px;
+  width: 100%;
+  height: auto;
+  z-index: 10;
+}
+
+/* PAUSE MENU STYLING */
+.pause-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* 50% grey transparency */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pause-menu {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.paused {
+  filter: blur(2px);
+  /* Blurs the background when paused */
+}
+
+/* Fullscreen grey overlay */
 .game-over-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* 50% grey opacity */
+  background: rgba(0, 0, 0, 0.5);
+  /* 50% grey opacity */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10; /* Ensures it's above the game */
+  z-index: 11;
+  /* Ensures it's above the game */
 }
 
 /* Centered game-over menu */
@@ -78,7 +90,8 @@
   border-radius: 10px;
   text-align: center;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-  z-index: 11; /* Higher than the overlay */
+  z-index: 12;
+  /* Higher than the overlay */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,4 +112,64 @@
 
 .game-over-menu button:hover {
   background: #cc0000;
+}
+
+
+/* Global container to hold all background layers */
+.background-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 56px);
+  overflow: hidden;
+  /* Prevents scrollbars */
+  pointer-events: none;
+  /* Prevents clicks on background */
+}
+
+/* Base styles for all layers */
+.background-layer {
+  position: absolute;
+  top: 0;
+  width: 200vw;
+  height: 100%;
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+}
+
+
+/*Static*/
+.Background-sky-1 {
+  z-index: 5;
+  background-image: url("../../Components/src/assets/background_1.png");
+}
+
+/*Static*/
+.Background-outline-2 {
+  z-index: 6;
+  background-image: url("../../Components/src/assets/background_2.png");
+}
+
+/*Very slowly moving, same as Background-decor-4*/
+.Background-desert-3 {
+  z-index: 7;
+  background-image: url("../../Components/src/assets/background_3.png");
+  background-repeat: repeat-x;
+}
+
+/*Very slowly moving, same as Background-desert-3*/
+.Background-decor-4 {
+  z-index: 8;
+  background-image: url("../../Components/src/assets/background_4.png");
+  background-repeat: repeat-x;
+}
+
+/*Medium speed*/
+.Background-foreground-5 {
+  z-index: 9;
+  background-image: url("../../Components/src/assets/background_5.png");
+  background-size: contain;
+  background-position: bottom;
+  background-repeat: repeat-x;
 }

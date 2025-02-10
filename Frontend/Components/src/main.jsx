@@ -1,14 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import AppRouter from "./Router.jsx";
-import "bootstrap/dist/css/bootstrap.min.css";  //added after "npm install react-bootstrap bootstrap"
-import './index.css'        //order matters, to overwrite the too eager bootstrap
-
+import { AppContextProvider } from "./Context"; // Import Context Provider
+import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap setup
+import "./index.css"; // Order matters, to overwrite Bootstrap styles
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AppRouter />
+    <AppContextProvider> {/* Ensures game state persists across pages */}
+      <AppRouter />
+    </AppContextProvider>
   </React.StrictMode>
 );
