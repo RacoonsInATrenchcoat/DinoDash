@@ -1,4 +1,4 @@
-const HighScores = () => {
+const HighScoresPage = () => {
     return (
       <div>
         <h2>High Scores</h2>
@@ -7,5 +7,5 @@ const HighScores = () => {
     );
   };
   
-  export default HighScores;
+  export default HighScoresPage;
   

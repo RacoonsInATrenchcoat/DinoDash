@@ -1,21 +1,19 @@
+import React from "react";
+import Navbar from "./Pages/Navbar";
 import { Outlet } from "react-router-dom";
-import { Navbar, Container } from "react-bootstrap";
+import { ScoreProvider } from "./Context"; // Import the Score Context Provider
 
-const Layout = ({ pageClass }) => {
-  return (
-    <div>
-      {/* temporary Bootstrap Navbar */}
-      <Navbar bg="dark" variant="dark" expand="lg">
-        <Container>
-          <Navbar.Brand href="/">Dino Dash</Navbar.Brand>
-        </Container>
-      </Navbar>
-
-      <div className={`container-fluid ${pageClass}`}>
-        <Outlet />
-      </div>
-    </div>
-  );
+const Layout = () => {
+    return (
+        <ScoreProvider> {/* Wrap everything inside ScoreProvider */}
+            <div>
+                <Navbar />
+                <div className="container-fluid">
+                    <Outlet /> {/* Page content will be loaded here */}
+                </div>
+            </div>
+        </ScoreProvider>
+    );
 };
 
 export default Layout;

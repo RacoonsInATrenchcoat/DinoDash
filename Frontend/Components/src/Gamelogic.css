@@ -1,0 +1,102 @@
+.game-container {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 56px);
+    overflow: hidden;
+    background-color: lightblue;
+  }
+  
+  
+  .game-area {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .dino, .cactus {
+    position: absolute;
+    bottom: 60px; /* Ensures both stay aligned */
+  }
+  
+  .dino {
+    left: 100px;
+    width: 50px;
+    height: 50px;
+    background-color: blue;
+  }
+  
+  .cactus {
+    right: 0;
+    width: 30px;
+    height: 50px;
+    background-color: green;
+  }
+  
+  /* PAUSE MENU STYLING */
+  .pause-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 50% grey transparency */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .pause-menu {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .paused {
+    filter: blur(2px); /* Blurs the background when paused */
+  }
+  
+  /* Fullscreen grey overlay */
+.game-over-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* 50% grey opacity */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* Ensures it's above the game */
+}
+
+/* Centered game-over menu */
+.game-over-menu {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 11; /* Higher than the overlay */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Button styling */
+.game-over-menu button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background: #ff4d4d;
+  color: rgb(0, 0, 0);
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+.game-over-menu button:hover {
+  background: #cc0000;
+}

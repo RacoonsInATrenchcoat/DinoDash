@@ -8,3 +8,8 @@ Notes to self:
     When running "npm run dev", Vite compiles src/ into a working React app.
 
 Use "tree /F > structure.txt" to save a file structure map!
+
+CRUD with Firebase by using "addDoc" and "SetDoc":
+    AddDoc creates a random ID for the new item.
+    SetDoc creates a fixed document ID (like using the username as the key).
+    updateDoc & deleteDoc work similar (by using specific ID).

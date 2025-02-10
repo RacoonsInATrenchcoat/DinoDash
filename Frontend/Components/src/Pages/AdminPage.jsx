@@ -2,7 +2,7 @@ import { useState } from "react";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { app } from "../../../../Backend/Firebase/firebaseconfig";
 
-const Admin = () => {
+const AdminPage = () => {
   const [user, setUser] = useState(null);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
@@ -28,4 +28,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default AdminPage;
