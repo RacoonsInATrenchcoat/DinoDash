@@ -1,19 +1,24 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import { ScoreContext, useGameContext } from "./Context"; // ✅ Using Combined Context
+import { ScoreContext, useGameContext, useVolumeContext } from "./Context"; // ✅ Using Combined Context
 import { submitHighScore } from "./CRUD"; // Firebase interaction
+import { useDinoRotation } from "./Animation"; // ✅ Import rotation logic
 import Background from "./Background";
+import MusicPlayer from "./MusicPlayer"; // ✅ Import music player
 import "./Gamelogic.css";
 
 const Gamelogic = () => {
   const { score, setScore } = useContext(ScoreContext);
   const { isRunning, setIsRunning } = useGameContext(); // ✅ Game state context
+  const { volume } = useVolumeContext();
   const [cactusPosition, setCactusPosition] = useState(window.innerWidth);
   const [dinoPosition, setDinoPosition] = useState(60);
   const [isJumping, setIsJumping] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [highScore, setHighScore] = useState(0);
   const [playerName, setPlayerName] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false); // ✅ Manages music state
 
+  const dinoAngle = useDinoRotation(); // ✅ Get rotation from Animation.jsx
   const intervalRef = useRef(null);
   const scoreIntervalRef = useRef(null);
 
@@ -23,6 +28,7 @@ const Gamelogic = () => {
   const startGame = () => {
     setIsGameOver(false);
     setIsRunning(true); // ✅ Resume game & background movement
+    setIsPlaying(true); // ✅ Start music when game starts
     setCactusPosition(window.innerWidth);
     setDinoPosition(60);
     setScore(0); // ✅ Ensures score resets properly
@@ -102,6 +108,7 @@ const Gamelogic = () => {
       if (xCollision && yCollision) {
         setIsGameOver(true);
         setIsRunning(false); // ✅ Stops background movement
+        setIsPlaying(false); // ✅ Stop music
         clearInterval(intervalRef.current);
         clearInterval(scoreIntervalRef.current);
         setHighScore((prev) => Math.max(prev, score));
@@ -121,9 +128,27 @@ const Gamelogic = () => {
     }
   };
 
+  // ✅ Ensures first interaction enables music autoplay
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      setIsPlaying(true);
+      window.removeEventListener("click", handleUserInteraction);
+      window.removeEventListener("keydown", handleUserInteraction);
+    };
+
+    window.addEventListener("click", handleUserInteraction);
+    window.addEventListener("keydown", handleUserInteraction);
+
+    return () => {
+      window.removeEventListener("click", handleUserInteraction);
+      window.removeEventListener("keydown", handleUserInteraction);
+    };
+  }, []);
+
   return (
     <div className="game-container">
       <Background /> {/* ✅ Background with parallax scrolling */}
+      <MusicPlayer isPlaying={isPlaying} volume={volume} /> {/* ✅ Inject MusicPlayer */}
 
       {isGameOver && (
         <div className="game-over-overlay">
@@ -144,7 +169,15 @@ const Gamelogic = () => {
 
       {/* Gameplay elements */}
       <div className="game-entities">
-        <div className="dino" style={{ bottom: `${dinoPosition}px`, left: "100px" }}></div>
+        <div
+          className="dino"
+          style={{
+            bottom: `${dinoPosition}px`,
+            left: "100px",
+            transform: `rotate(${dinoAngle}deg)`, // ✅ Uses external rotation logic
+            transition: "transform 1s ease-in-out", // ✅ Smooth transition
+          }}
+        ></div>
         <div className="cactus" style={{ left: `${cactusPosition}px` }}></div>
       </div>
     </div>
