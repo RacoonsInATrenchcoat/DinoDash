@@ -7,11 +7,21 @@ import MusicPlayer from "./MusicPlayer"; // ✅ Import music player
 import "./Gamelogic.css";
 
 const Gamelogic = () => {
+
+  const dinoWidth = 150, dinoHeight = 150;
+  const cactusWidth = 150, cactusHeight = 170;
+
+  const JUMP_HEIGHT = 450;
+  const JUMP_SPEED = 6;
+  const DINO_START_HEIGHT = 40;
+  const CACTUS_START_HEIGHT = 40;
+  const CACTUS_SPEED = 5;
+
   const { score, setScore } = useContext(ScoreContext);
   const { isRunning, setIsRunning } = useGameContext(); // ✅ Game state context
   const { volume } = useVolumeContext();
   const [cactusPosition, setCactusPosition] = useState(window.innerWidth);
-  const [dinoPosition, setDinoPosition] = useState(60);
+  const [dinoPosition, setDinoPosition] = useState(DINO_START_HEIGHT);
   const [isJumping, setIsJumping] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [highScore, setHighScore] = useState(0);
@@ -22,21 +32,18 @@ const Gamelogic = () => {
   const intervalRef = useRef(null);
   const scoreIntervalRef = useRef(null);
 
-  const dinoWidth = 150, dinoHeight = 150;
-  const cactusWidth = 30, cactusHeight = 50;
-
   const startGame = () => {
     setIsGameOver(false);
     setIsRunning(true); // ✅ Resume game & background movement
     setIsPlaying(true); // ✅ Start music when game starts
     setCactusPosition(window.innerWidth);
-    setDinoPosition(60);
+    setDinoPosition(DINO_START_HEIGHT);
     setScore(0); // ✅ Ensures score resets properly
     setIsJumping(false);
     setPlayerName(""); // ✅ Clears input on restart
 
     intervalRef.current = setInterval(() => {
-      setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - 5));
+      setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - CACTUS_SPEED));
     }, 20);
 
     scoreIntervalRef.current = setInterval(() => {
@@ -48,7 +55,7 @@ const Gamelogic = () => {
     if (!isRunning) return; // ✅ Stops movement when game is paused
 
     intervalRef.current = setInterval(() => {
-      setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - 5));
+      setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - CACTUS_SPEED));
     }, 20);
 
     scoreIntervalRef.current = setInterval(() => {
@@ -72,22 +79,21 @@ const Gamelogic = () => {
         audio.play();
 
 
-
         const upInterval = setInterval(() => {
-          if (position >= 250) {
+          if (position >= JUMP_HEIGHT) {
             clearInterval(upInterval);
             const downInterval = setInterval(() => {
-              if (position <= 60) {
+              if (position <= DINO_START_HEIGHT) {
                 clearInterval(downInterval);
-                setDinoPosition(60);
+                setDinoPosition(DINO_START_HEIGHT);
                 setIsJumping(false);
               } else {
-                position -= 5;
+                position -= JUMP_SPEED;
                 setDinoPosition(position);
               }
             }, 20);
           } else {
-            position += 5;
+            position += JUMP_SPEED;
             setDinoPosition(position);
           }
         }, 20);
@@ -106,8 +112,8 @@ const Gamelogic = () => {
       if (isGameOver) return; // ✅ Stop checking once the game is over
 
       const dinoX = 100, dinoY = dinoPosition;
-      const cactusX = cactusPosition, cactusY = 60;
-
+      const cactusX = cactusPosition, cactusY = CACTUS_START_HEIGHT;
+      
       const xCollision = cactusX < dinoX + dinoWidth && cactusX + cactusWidth > dinoX;
       const yCollision = cactusY < dinoY + dinoHeight && cactusY + cactusHeight > dinoY;
 

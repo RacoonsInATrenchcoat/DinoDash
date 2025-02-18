@@ -9,8 +9,7 @@
 .dino,
 .cactus {
   position: absolute;
-  bottom: 60px;
-  /* Ensures both stay aligned */
+  bottom: 40px;
 }
 
 .dino {
@@ -26,9 +25,11 @@
 
 .cactus {
   position: absolute;
-  width: 30px;
-  height: 50px;
-  background-color: green;
+  width: 150px;
+  height: 170px;
+  background-image: url("../../Components/src/assets/cactus_1.png");
+  background-size: contain;
+  background-repeat: no-repeat;
   z-index: 10;
 }
 
