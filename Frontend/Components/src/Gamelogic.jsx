@@ -68,6 +68,7 @@ const Gamelogic = () => {
         let position = dinoPosition;
 
         const audio = new Audio("/jump_1.mp3");
+        audio.volume = volume / 100;
         audio.play();
 
 
