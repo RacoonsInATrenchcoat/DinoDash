@@ -67,6 +67,11 @@ const Gamelogic = () => {
         setIsJumping(true);
         let position = dinoPosition;
 
+        const audio = new Audio("/jump_1.mp3");
+        audio.play();
+
+
+
         const upInterval = setInterval(() => {
           if (position >= 250) {
             clearInterval(upInterval);
