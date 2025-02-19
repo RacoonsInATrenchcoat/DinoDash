@@ -16,6 +16,7 @@ const Gamelogic = () => {
   const DINO_START_HEIGHT = 40;
   const CACTUS_START_HEIGHT = 40;
   const CACTUS_SPEED = 5;
+  const musicFile = "/static/jump_1.mp3";
 
   const { score, setScore } = useContext(ScoreContext);
   const { isRunning, setIsRunning } = useGameContext(); // ✅ Game state context
@@ -74,7 +75,7 @@ const Gamelogic = () => {
         setIsJumping(true);
         let position = dinoPosition;
 
-        const audio = new Audio("/jump_1.mp3");
+        const audio = new Audio(musicFile);
         audio.volume = volume / 100;
         audio.play();
 

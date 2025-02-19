@@ -16,7 +16,7 @@
   position: absolute;
   width: 150px;
   height: 150px;
-  background-image: url("../../Components/src/assets/lizardwizard_150x150.png");
+  background-image: url("/static/lizardwizard_150x150.png");
   background-size: contain;
   background-repeat: no-repeat;
   z-index: 10;
@@ -27,7 +27,7 @@
   position: absolute;
   width: 150px;
   height: 170px;
-  background-image: url("../../Components/src/assets/cactus_1.png");
+  background-image: url("/static/cactus_1.png");
   background-size: contain;
   background-repeat: no-repeat;
   z-index: 10;
@@ -144,33 +144,33 @@
 /*Static*/
 .Background-sky-1 {
   z-index: 5;
-  background-image: url("../../Components/src/assets/background_1.png");
+  background-image: url("/static/background_1.png");
 }
 
 /*Static*/
 .Background-outline-2 {
   z-index: 6;
-  background-image: url("../../Components/src/assets/background_2.png");
+  background-image: url("/static/background_2.png");
 }
 
 /*Very slowly moving, same as Background-decor-4*/
 .Background-desert-3 {
   z-index: 7;
-  background-image: url("../../Components/src/assets/background_3.png");
+  background-image: url("/static/background_3.png");
   background-repeat: repeat-x;
 }
 
 /*Very slowly moving, same as Background-desert-3*/
 .Background-decor-4 {
   z-index: 8;
-  background-image: url("../../Components/src/assets/background_4.png");
+  background-image: url("/static/background_4.png");
   background-repeat: repeat-x;
 }
 
 /*Medium speed*/
 .Background-foreground-5 {
   z-index: 9;
-  background-image: url("../../Components/src/assets/background_5.png");
+  background-image: url("/static/background_5.png");
   background-size: contain;
   background-position: bottom;
   background-repeat: repeat-x;

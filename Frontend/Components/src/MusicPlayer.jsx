@@ -31,7 +31,7 @@ const MusicPlayer = ({ isPlaying }) => {
   }, [isPlaying]);
 
   return (
-    <audio ref={audioRef} src="/TTD_01.mp3" preload="auto" loop />
+    <audio ref={audioRef} src="/static/TTD_01.mp3" preload="auto" loop />
   );
 };
 
