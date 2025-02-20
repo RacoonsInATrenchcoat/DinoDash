@@ -1,12 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Gamelogic from "../Gamelogic";
-import { ScoreContext, useLevelContext } from "../Context"; // ✅ Imported Level Context
+import { useScoreContext, useLevelContext } from "../Context"; // ✅ Imported Level Context
 import "../Gamelogic.css";
 
 const Homepage = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
-  const { setScore } = useContext(ScoreContext);
+  const { setScore } = useScoreContext(); // ✅ Correctly using useScoreContext
   const { level, nextLevel } = useLevelContext(); // ✅ Using level from context
 
   const startGame = () => {

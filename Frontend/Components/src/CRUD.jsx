@@ -3,6 +3,9 @@ import { ref, push, get, update, remove } from "firebase/database";
 
 const SCORES_COLLECTION = "highscores"; // The node in Realtime Database
 
+console.log("🔥 Firebase DB Instance:", db); //debug
+
+
 // ✅ Function to submit a high score to Realtime Database
 export const submitHighScore = async (username, score) => {
     try {

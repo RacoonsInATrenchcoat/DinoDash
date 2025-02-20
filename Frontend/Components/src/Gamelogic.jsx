@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
-import { ScoreContext, useGameContext, useVolumeContext, useLevelContext } from "./Context"; // ✅ Using Combined Context
+import React, { useEffect, useState, useRef } from "react";
+import { useScoreContext, useGameContext, useVolumeContext, useLevelContext } from "./Context"; // ✅ Using Combined Context
 import { submitHighScore } from "./CRUD"; // Firebase interaction
 import { useDinoRotation } from "./Animation"; // ✅ Import rotation logic
 import Background from "./Background";
@@ -12,7 +12,7 @@ const Gamelogic = () => {
   const cactusWidth = 150, cactusHeight = 170;
 
   //Contexts
-  const { score, setScore } = useContext(ScoreContext);
+  const { score, setScore } = useScoreContext();
   const { isRunning, setIsRunning } = useGameContext(); // ✅ Game state context
   const { volume } = useVolumeContext();
   const { level } = useLevelContext();
@@ -82,7 +82,6 @@ const Gamelogic = () => {
         const audio = new Audio(musicFile);
         audio.volume = volume / 100;
         audio.play();
-
 
         const upInterval = setInterval(() => {
           if (position >= JUMP_HEIGHT) {

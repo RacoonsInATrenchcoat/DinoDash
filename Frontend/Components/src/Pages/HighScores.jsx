@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getHighScores } from "../CRUD";
 
+console.log("✅ HighScoresPage is mounting!");
 const HighScoresPage = () => {
   const [scores, setScores] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -11,22 +12,34 @@ const HighScoresPage = () => {
   }, [currentPage]);
 
   const fetchScores = async () => {
-    const allScores = await getHighScores();
-    const sortedScores = Object.entries(allScores) // Convert object to array
-      .flatMap(([username, userScores]) =>
-        Object.entries(userScores).map(([scoreId, { score, timestamp }]) => ({
-          id: scoreId,
-          username,
-          score,
-          timestamp,
-        }))
-      )
-      .sort((a, b) => b.score - a.score); // Sort by highest score
-    
-    const startIndex = (currentPage - 1) * scoresPerPage;
-    const paginatedScores = sortedScores.slice(startIndex, startIndex + scoresPerPage);
-    setScores(paginatedScores);
+    try {
+      console.log("⏳ Fetching high scores...");
+      const allScores = await getHighScores();
+      console.log("✅ Fetched Scores:", allScores);
+  
+      if (!allScores) {
+        console.error("❌ No scores found! Database might be empty.");
+      }
+  
+      const sortedScores = Object.entries(allScores || {})
+        .flatMap(([username, userScores]) =>
+          Object.entries(userScores).map(([scoreId, { score, timestamp }]) => ({
+            id: scoreId,
+            username,
+            score,
+            timestamp,
+          }))
+        )
+        .sort((a, b) => b.score - a.score);
+  
+      const startIndex = (currentPage - 1) * scoresPerPage;
+      const paginatedScores = sortedScores.slice(startIndex, startIndex + scoresPerPage);
+      setScores(paginatedScores);
+    } catch (error) {
+      console.error("❌ Error in fetchScores:", error);
+    }
   };
+  
 
   return (
     <div>

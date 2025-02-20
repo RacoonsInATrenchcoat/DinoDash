@@ -13,7 +13,7 @@ const AdminPage = () => {
       setUser(result.user);
     } catch (error) {
       console.error("Login Failed:", error);
-    }
+    } 
   };
 
   return (

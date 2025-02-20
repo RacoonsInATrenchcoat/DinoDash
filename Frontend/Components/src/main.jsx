@@ -1,16 +1,23 @@
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import AppRouter from "./Router.jsx";
-import { AppContextProvider } from "./Context"; // Import Context Provider
+import { ScoreProvider, GameProvider, VolumeProvider, LevelProvider } from "./Context"; // ✅ Use direct providers
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap setup
 import "./index.css"; // Order matters, to overwrite Bootstrap styles
 
+console.log("✅ Main.jsx is running!");
+
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <AppContextProvider> {/* Ensures game state persists across pages */}
-      <AppRouter />
-    </AppContextProvider>
-  </React.StrictMode>
+  <StrictMode>
+    <ScoreProvider>
+      <GameProvider>
+        <VolumeProvider>
+          <LevelProvider>
+            <AppRouter /> {/* ✅ Everything wrapped correctly */}
+          </LevelProvider>
+        </VolumeProvider>
+      </GameProvider>
+    </ScoreProvider>
+  </StrictMode>
 );
