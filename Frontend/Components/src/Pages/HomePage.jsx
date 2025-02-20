@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 import Gamelogic from "../Gamelogic";
-import { ScoreContext } from "../Context";
+import { ScoreContext, useLevelContext } from "../Context"; // ✅ Imported Level Context
 import "../Gamelogic.css";
 
 const Homepage = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
   const { setScore } = useContext(ScoreContext);
+  const { level, nextLevel } = useLevelContext(); // ✅ Using level from context
 
   const startGame = () => {
     setGameStarted(true);
@@ -20,14 +21,6 @@ const Homepage = () => {
 
   const resumeGame = () => {
     setIsRunning(true);
-  };
-
-  const levels = [1, 2, 3]; // Level options
-  const [currentLevel, setCurrentLevel] = useState(0); // Index of the current level
-
-  // Function to handle level change
-  const nextLevel = () => {
-    setCurrentLevel((prevIndex) => (prevIndex + 1) % levels.length);
   };
 
   return (
@@ -53,7 +46,7 @@ const Homepage = () => {
           <div className="d-flex align-items-center justify-content-center">
             <p className="me-3 mb-0">Select level:</p>
             <button className="btn btn-secondary" onClick={nextLevel}>
-              {levels[currentLevel]}
+              Level {level}
             </button>
           </div>
         </div>

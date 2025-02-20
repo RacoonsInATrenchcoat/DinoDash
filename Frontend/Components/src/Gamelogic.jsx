@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import { ScoreContext, useGameContext, useVolumeContext } from "./Context"; // ✅ Using Combined Context
+import { ScoreContext, useGameContext, useVolumeContext, useLevelContext } from "./Context"; // ✅ Using Combined Context
 import { submitHighScore } from "./CRUD"; // Firebase interaction
 import { useDinoRotation } from "./Animation"; // ✅ Import rotation logic
 import Background from "./Background";
@@ -11,16 +11,20 @@ const Gamelogic = () => {
   const dinoWidth = 150, dinoHeight = 150;
   const cactusWidth = 150, cactusHeight = 170;
 
+  //Contexts
+  const { score, setScore } = useContext(ScoreContext);
+  const { isRunning, setIsRunning } = useGameContext(); // ✅ Game state context
+  const { volume } = useVolumeContext();
+  const { level } = useLevelContext();
+
   const JUMP_HEIGHT = 450;
   const JUMP_SPEED = 6;
   const DINO_START_HEIGHT = 40;
   const CACTUS_START_HEIGHT = 40;
-  const CACTUS_SPEED = 5;
   const musicFile = "/static/jump_1.mp3";
+  const CACTUS_SPEED = level === 1 ? 5 : level === 2 ? 7 : 9; // If 1, then 5, if 2 then 7, otherwise set as 9
 
-  const { score, setScore } = useContext(ScoreContext);
-  const { isRunning, setIsRunning } = useGameContext(); // ✅ Game state context
-  const { volume } = useVolumeContext();
+  //States
   const [cactusPosition, setCactusPosition] = useState(window.innerWidth);
   const [dinoPosition, setDinoPosition] = useState(DINO_START_HEIGHT);
   const [isJumping, setIsJumping] = useState(false);
@@ -67,7 +71,7 @@ const Gamelogic = () => {
       clearInterval(intervalRef.current);
       clearInterval(scoreIntervalRef.current);
     };
-  }, [isRunning, setScore]);
+  }, [isRunning, setScore, CACTUS_SPEED]);
 
   useEffect(() => {
     const handleJump = (event) => {
@@ -114,7 +118,7 @@ const Gamelogic = () => {
 
       const dinoX = 100, dinoY = dinoPosition;
       const cactusX = cactusPosition, cactusY = CACTUS_START_HEIGHT;
-      
+
       const xCollision = cactusX < dinoX + dinoWidth && cactusX + cactusWidth > dinoX;
       const yCollision = cactusY < dinoY + dinoHeight && cactusY + cactusHeight > dinoY;
 

@@ -1,5 +1,9 @@
 Notes to self:
 
+Deploy Project Console: https://console.firebase.google.com/project/dino-dash-66723/overview
+Hosting URL: https://dino-dash-66723.web.app
+
+
 2 public folders due to:
     Firebase public/ → Hosts the website when deployed via Firebase Hosting.
     React public/ → Used during development for static assets (like the default "vite.svg").
