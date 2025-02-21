@@ -22,7 +22,7 @@ const Gamelogic = () => {
   const DINO_START_HEIGHT = 40;
   const CACTUS_START_HEIGHT = 40;
   const musicFile = "/static/jump_1.mp3";
-  const CACTUS_SPEED = level === 1 ? 5 : level === 2 ? 7 : 9; // If 1, then 5, if 2 then 7, otherwise set as 9
+  const CACTUS_SPEED = level === 1 ? 5 : level === 2 ? 9 : 15; // If 1, then 5, if 2 then 9, otherwise set as 13
 
   //States
   const [cactusPosition, setCactusPosition] = useState(window.innerWidth);
@@ -57,7 +57,7 @@ const Gamelogic = () => {
   };
 
   useEffect(() => {
-    if (!isRunning) return; // ✅ Stops movement when game is paused
+    if (!isRunning || isGameOver) return; // ✅ Stops movement when game is paused / state is over
 
     intervalRef.current = setInterval(() => {
       setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - CACTUS_SPEED));
@@ -71,7 +71,7 @@ const Gamelogic = () => {
       clearInterval(intervalRef.current);
       clearInterval(scoreIntervalRef.current);
     };
-  }, [isRunning, setScore, CACTUS_SPEED]);
+  }, [isRunning, setScore, isGameOver, CACTUS_SPEED]);
 
   useEffect(() => {
     const handleJump = (event) => {
@@ -126,7 +126,8 @@ const Gamelogic = () => {
         setIsRunning(false); // ✅ Stops background movement
         setIsPlaying(false); // ✅ Stop music
         clearInterval(intervalRef.current);
-        clearInterval(scoreIntervalRef.current);
+        clearInterval(scoreIntervalRef.current); // ❌ Make sure the score interval stops
+        scoreIntervalRef.current = null; // ✅ Ensure no duplicate intervals
         setHighScore((prev) => Math.max(prev, score));
       }
     };
