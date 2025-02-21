@@ -39,22 +39,24 @@ const Homepage = () => {
         </>
       ) : (
         <div className="container text-center mt-5">
-          {/* Start Game Button */}
-          <button onClick={startGame} className="start-btn">Start Game</button>
+          <div class="p-3 bg-info bg-opacity-10 border border-info rounded">
+            {/* Start Game Button */}
+            <button onClick={startGame} className="start-btn">Start Game</button>
 
-          {/* Level Selector */}
-          <div className="d-flex align-items-center justify-content-center">
-            <p className="me-3 mb-0">Select level:</p>
-            <button className="btn btn-secondary" onClick={nextLevel}>
-              Level {level}
-            </button>
+            {/* Level Selector */}
+            <div className="d-flex align-items-center justify-content-center">
+              <p className="me-3 mb-0">Select level:</p>
+              <button className="btn btn-secondary" onClick={nextLevel}>
+                Level {level}
+              </button>
+            </div>
+            <div>
+              <p>Different levels have different areas!</p>
+              <p>Level 1 is speed 5</p>
+              <p>Level 2 is speed 10</p>
+              <p>Level 3 is speed 15</p>
+            </div>
           </div>
-          <ul>
-              <li>Different levels have different areas!</li>
-              <li>Level 1 is speed 5</li>
-              <li>Level 2 is speed 9</li>
-              <li>Level 3 is speed 15</li>
-          </ul>
         </div>
       )}
     </div>

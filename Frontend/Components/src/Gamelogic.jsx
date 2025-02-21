@@ -22,7 +22,7 @@ const Gamelogic = () => {
   const DINO_START_HEIGHT = 40;
   const CACTUS_START_HEIGHT = 40;
   const musicFile = "/static/jump_1.mp3";
-  const CACTUS_SPEED = level === 1 ? 5 : level === 2 ? 9 : 15; // If 1, then 5, if 2 then 9, otherwise set as 13
+  const CACTUS_SPEED = level === 1 ? 5 : level === 2 ? 10 : 15; // If 1, then 5, if 2 then 10, otherwise set as 13
 
   //States
   const [cactusPosition, setCactusPosition] = useState(window.innerWidth);
