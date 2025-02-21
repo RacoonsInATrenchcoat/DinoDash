@@ -49,10 +49,10 @@ const Homepage = () => {
               Level {level}
             </button>
             <ul>
-              <il>Different levels have different areas!</il>
-              <il>Level 1 is speed 5</il>
-              <il>Level 2 is speed 9</il>
-              <il>Level 3 is speed 15</il>
+              <li>Different levels have different areas!</li>
+              <li>Level 1 is speed 5</li>
+              <li>Level 2 is speed 9</li>
+              <li>Level 3 is speed 15</li>
             </ul>
           </div>
         </div>
