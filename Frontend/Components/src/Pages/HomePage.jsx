@@ -48,13 +48,13 @@ const Homepage = () => {
             <button className="btn btn-secondary" onClick={nextLevel}>
               Level {level}
             </button>
-            <ul>
+          </div>
+          <ul>
               <li>Different levels have different areas!</li>
               <li>Level 1 is speed 5</li>
               <li>Level 2 is speed 9</li>
               <li>Level 3 is speed 15</li>
-            </ul>
-          </div>
+          </ul>
         </div>
       )}
     </div>
