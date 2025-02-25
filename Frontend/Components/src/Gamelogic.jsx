@@ -18,11 +18,12 @@ const Gamelogic = () => {
   const { level } = useLevelContext();
 
   const JUMP_HEIGHT = 450;
-  const JUMP_SPEED = 6;
+  const JUMP_SPEED = level === 1 ? 8 : level === 2 ? 11 : 13; // If 1, then 8, if 2 then 11, otherwise set as 13
   const DINO_START_HEIGHT = 40;
   const CACTUS_START_HEIGHT = 40;
   const musicFile = "/static/jump_1.mp3";
-  const CACTUS_SPEED = level === 1 ? 5 : level === 2 ? 10 : 15; // If 1, then 5, if 2 then 10, otherwise set as 13
+  const initialCactusSpeed = level === 1 ? 10 : level === 2 ? 12 : 15;// If 1, then 10, if 2 then 12, otherwise set as 15
+  const [cactusSpeed, setCactusSpeed] = useState(initialCactusSpeed);
 
   //States
   const [cactusPosition, setCactusPosition] = useState(window.innerWidth);
@@ -38,6 +39,9 @@ const Gamelogic = () => {
   const scoreIntervalRef = useRef(null);
 
   const startGame = () => {
+    clearInterval(intervalRef.current);       // ✅ Stop any existing intervals before setting speed
+    clearInterval(scoreIntervalRef.current);
+
     setIsGameOver(false);
     setIsRunning(true); // ✅ Resume game & background movement
     setIsPlaying(true); // ✅ Start music when game starts
@@ -46,9 +50,10 @@ const Gamelogic = () => {
     setScore(0); // ✅ Ensures score resets properly
     setIsJumping(false);
     setPlayerName(""); // ✅ Clears input on restart
+    setCactusSpeed(initialCactusSpeed);
 
     intervalRef.current = setInterval(() => {
-      setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - CACTUS_SPEED));
+      setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - cactusSpeed));
     }, 20);
 
     scoreIntervalRef.current = setInterval(() => {
@@ -56,22 +61,38 @@ const Gamelogic = () => {
     }, 100);
   };
 
+  useEffect(() => { //Needed to have the next sound not play the old value but instantly get the new volume
+    if (isRunning) {
+      const audio = new Audio(musicFile);
+      audio.volume = volume / 100;
+      audio.play();
+    }
+  }, [isRunning, volume]);
+
   useEffect(() => {
-    if (!isRunning || isGameOver) return; // ✅ Stops movement when game is paused / state is over
+    if (!isRunning || isGameOver) return;
 
+    clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
-      setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - CACTUS_SPEED));
+      setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - cactusSpeed));
     }, 20);
-
-    scoreIntervalRef.current = setInterval(() => {
-      setScore((prev) => prev + 1);
-    }, 100);
 
     return () => {
       clearInterval(intervalRef.current);
-      clearInterval(scoreIntervalRef.current);
     };
-  }, [isRunning, setScore, isGameOver, CACTUS_SPEED]);
+  }, [setScore, cactusSpeed]);
+
+  useEffect(() => {
+    if (isGameOver || !isRunning) return;
+
+    clearInterval(scoreIntervalRef.current);
+    scoreIntervalRef.current = setInterval(() => {
+        setScore((prev) => prev + 1);
+    }, 100);
+
+    return () => clearInterval(scoreIntervalRef.current);
+}, [isRunning, isGameOver]); // ✅ No movement dependencies!
+
 
   useEffect(() => {
     const handleJump = (event) => {
@@ -112,9 +133,13 @@ const Gamelogic = () => {
   }, [isJumping, isRunning]);
 
   useEffect(() => {
-    const checkCollision = () => {
-      if (isGameOver) return; // ✅ Stop checking once the game is over
+    if (isGameOver) return; // ✅ Stop checking once the game is over
 
+    clearInterval(intervalRef.current);
+    clearInterval(scoreIntervalRef.current);
+
+    intervalRef.current = setInterval(() => {
+      setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - cactusSpeed));
       const dinoX = 100, dinoY = dinoPosition;
       const cactusX = cactusPosition, cactusY = CACTUS_START_HEIGHT;
 
@@ -130,13 +155,18 @@ const Gamelogic = () => {
         scoreIntervalRef.current = null; // ✅ Ensure no duplicate intervals
         setHighScore((prev) => Math.max(prev, score));
       }
+    }, 20);
+
+    // ✅ Score update now runs inside the same effect
+    scoreIntervalRef.current = setInterval(() => {
+      setScore((prev) => prev + 1);
+    }, 100);
+
+    return () => {
+      clearInterval(intervalRef.current);
+      clearInterval(scoreIntervalRef.current);
     };
-
-    // ✅ Collision should still run even if isRunning is false
-    const collisionInterval = setInterval(checkCollision, 20);
-
-    return () => clearInterval(collisionInterval);
-  }, [cactusPosition, dinoPosition, isGameOver, score]);
+  }, [isRunning, isGameOver, cactusSpeed, dinoPosition, score]);
 
   // ✅ Submit high score to Firebase
   const handleSubmitScore = () => {
@@ -164,8 +194,8 @@ const Gamelogic = () => {
 
   return (
     <div className="game-container">
-      <Background /> {/* ✅ Background with parallax scrolling */}
-      <MusicPlayer isPlaying={isPlaying} volume={volume} /> {/* ✅ Inject MusicPlayer */}
+      <Background />
+      <MusicPlayer isPlaying={isPlaying} volume={volume} />
 
       {isGameOver && (
         <div className="game-over-overlay">

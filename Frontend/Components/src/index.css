@@ -1,12 +1,25 @@
 body {
-  background-color: #1d4d58;
+  background-image: url("/static/Elements/Stone_Background.svg");
+  background-repeat:repeat;
+  background-size: 30%;
+  background-position: center;
+
   font-family: Arial, sans-serif;
   color: white;
 }
 
 .navbar {
-  background-color: #3977b9 !important  /*Needed to overwrite bootstrap*/
+  background-color: grey;
+  background-image: 
+    url("/static/Elements/Stone_Background_navbar.svg"), 
+    url("/static/Elements/Stone_Background_navbar.svg"); /* Two instances */
+
+  background-size: 45vw, 45vw; /* Ensures each is 33.3vw wide & 50px tall */
+  background-position: left center, right center; /* One on the left, one on the right */
+  width: 100vw;
+  height: 50px; /* Forces height */
 }
+
 
 .navbar .nav-link {
   color: white
@@ -14,5 +27,10 @@ body {
 
 .navbar .nav-link:hover {
   color: #ffcc00
+}
+
+.navBarDivider{
+  border:white 1px solid;
+  height: 100%;
 }
 

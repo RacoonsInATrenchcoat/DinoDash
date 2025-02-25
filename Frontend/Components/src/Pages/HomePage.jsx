@@ -39,22 +39,27 @@ const Homepage = () => {
         </>
       ) : (
         <div className="container text-center mt-5">
-          <div class="p-3 bg-info bg-opacity-10 border border-info rounded">
-            {/* Start Game Button */}
-            <button onClick={startGame} className="start-btn">Start Game</button>
+          <div className="main-menu-container d-flex flex-column align-items-center justify-content-center">
 
-            {/* Level Selector */}
-            <div className="d-flex align-items-center justify-content-center">
+            <div className="menu-container d-flex justify-content-center" onClick={startGame}>
+              <img src="/static/Elements/Wooden_Button_1.svg" alt="Wooden Button" />
+              <div className="text-Centered-In-Image">Start game</div>
+            </div>
+            {/*<button onClick={startGame} className="start-btn">Start Game</button>*/}
+
+            <div className="d-flex flex-column align-items-center justify-content-center">
               <p className="me-3 mb-0">Select level:</p>
               <button className="btn btn-secondary" onClick={nextLevel}>
                 Level {level}
               </button>
-            </div>
-            <div>
               <p>Different levels have different areas!</p>
               <p>Level 1 is speed 5</p>
               <p>Level 2 is speed 10</p>
               <p>Level 3 is speed 15</p>
+              <div className="mt-5">
+                <p>Use SPACE to jump.</p>
+                <p>Beware! Your score only increases while you are not jumping!</p>
+              </div>
             </div>
           </div>
         </div>

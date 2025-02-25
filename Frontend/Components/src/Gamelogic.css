@@ -6,6 +6,23 @@
   background-color: lightblue;
 }
 
+.menu-container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.main-menu-container{
+  position: relative;
+  background-image: url("/static/Elements/Stone_Button.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  width: 100%;
+  height: 75vh;
+}
+
 .dino,
 .cactus {
   position: absolute;
@@ -31,6 +48,68 @@
   background-size: contain;
   background-repeat: no-repeat;
   z-index: 10;
+}
+
+.text-Centered-In-Image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nav-score{
+  margin-right: 1vw;
+}
+
+/*Navbar Volume slider*/
+
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Add spacing between label, slider, and image */
+}
+
+.custom-slider {
+  position: relative;
+  width: 150px; /* Match the image width */
+}
+
+.custom-slider input[type="range"] {  /* The silder itself */
+  -webkit-appearance: none;           /* Remove default styles */
+  appearance: none;
+  width: 100%;
+  height: 30px;
+  background: url("/static/Elements/Wooden_Volume.svg") no-repeat center;
+  background-size: contain;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.custom-slider input[type="range"]::-webkit-slider-thumb {  /* The middle button itself */
+  -webkit-appearance: none;
+  appearance: none;
+  width: 40px;
+  height: 40px;
+  background: url("/static/Elements/Wooden_Button_2.svg") no-repeat center;
+  background-size: contain;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.custom-slider input[type="range"]::-moz-range-thumb {  /* The middle button itself (for firefox)*/
+  width: 40px;
+  height: 40px;
+  background: url("/static/Elements/Wooden_Button_2.svg") no-repeat center;
+  background-size: contain;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.volume-icon {
+  width: 30px;
+  height: auto;
 }
 
 /*Extra assurance to show*/

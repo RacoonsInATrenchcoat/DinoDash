@@ -1,3 +1,9 @@
+Assets used:
+Backgrounds - https://craftpix.net/freebies/free-desert-scrolling-2d-game-backgrounds/
+Wooden Buttons - https://www.freepik.com/free-vector/wooden-buttons-ui-game_12632833.htm
+Stone background - https://www.freepik.com/free-vector/wall-texture-with-cartoon-stones_1064416.htm
+LizardWizard art - JuditMolnarDesign
+
 Notes to self:
 
 Deploy Project Console: https://console.firebase.google.com/project/dino-dash-66723/overview
