@@ -16,11 +16,11 @@ const HighScoresPage = () => {
       console.log("⏳ Fetching high scores...");
       const allScores = await getHighScores();
       console.log("✅ Fetched Scores:", allScores);
-  
+
       if (!allScores) {
         console.error("❌ No scores found! Database might be empty.");
       }
-  
+
       const sortedScores = Object.entries(allScores || {})
         .flatMap(([username, userScores]) =>
           Object.entries(userScores).map(([scoreId, { score, timestamp }]) => ({
@@ -31,7 +31,7 @@ const HighScoresPage = () => {
           }))
         )
         .sort((a, b) => b.score - a.score);
-  
+
       const startIndex = (currentPage - 1) * scoresPerPage;
       const paginatedScores = sortedScores.slice(startIndex, startIndex + scoresPerPage);
       setScores(paginatedScores);
@@ -39,12 +39,14 @@ const HighScoresPage = () => {
       console.error("❌ Error in fetchScores:", error);
     }
   };
-  
+
 
   return (
-    <div>
-      <h2>High Scores</h2>
-      <ul className="ListedScores">
+    <div className="high-score-container">
+      <div className="Highscore-title d-flex align-items-center justify-content-center">
+        <h2>High Scores</h2>
+      </div>
+      <ul className="ListedScores d-flex flex-column align-items-center justify-content-center">
         {scores.length > 0 ? (
           scores.map((entry, index) => (
             <li key={entry.id}>
@@ -59,6 +61,7 @@ const HighScoresPage = () => {
         {currentPage > 1 && <button onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>}
         {scores.length === scoresPerPage && <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>}
       </div>
+
     </div>
   );
 };

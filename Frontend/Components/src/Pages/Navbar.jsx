@@ -17,7 +17,7 @@ const Navbar = () => {
     return (
       <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">Dino Dash</Link>
+          <Link className="sigmar-regular displayfont-text" to="/">Dino Dash</Link>
           <button
             className="navbar-toggler"
             type="button"

@@ -1,3 +1,36 @@
+.sigmar-regular {  /*Font*/
+  font-family: "Sigmar", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.displayfont-text{
+  color: antiquewhite;
+  margin-right: 10px;
+  font-size: 150%;
+  text-decoration: none; /*Removing the underline from link*/
+}
+
+.high-score-container{
+  position: relative;
+  background-image: url("/static/Elements/Wooden_Button_3.svg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  width: 100%;
+  min-height: 75vh; /* Ensures a minimum height */
+  height: auto; /* Allows it to grow with content */
+  padding: 20px; /* Adds spacing */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ListedScores{
+}
+
 .game-container {
   position: relative;
   width: 100%;
@@ -18,6 +51,7 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  font-size: 110%;
 
   width: 100%;
   height: 75vh;

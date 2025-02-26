@@ -4,6 +4,9 @@ Wooden Buttons - https://www.freepik.com/free-vector/wooden-buttons-ui-game_1263
 Stone background - https://www.freepik.com/free-vector/wall-texture-with-cartoon-stones_1064416.htm
 LizardWizard art - JuditMolnarDesign
 
+Display font: Sigmar - https://fonts.google.com/specimen/Sigmar?lang=en_Latn
+Bodycopy font:
+
 Notes to self:
 
 Deploy Project Console: https://console.firebase.google.com/project/dino-dash-66723/overview
