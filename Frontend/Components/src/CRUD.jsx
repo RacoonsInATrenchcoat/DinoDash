@@ -1,5 +1,5 @@
 import { db } from "../../../Backend/Firebase/firebaseconfig";
-import { ref, push, get, update, remove } from "firebase/database";
+import { ref, push, get, update, remove, query, orderByKey, limitToFirst, startAt} from "firebase/database";
 
 const SCORES_COLLECTION = "highscores"; // The node in Realtime Database
 
@@ -57,3 +57,64 @@ export const deleteHighScore = async (username, scoreId) => {
         console.error("Error deleting high score: ", error);
     }
 };
+
+export const getHighScoresPaginated = async (lastKey, scoresPerPage) => {
+    try {
+      console.log(`🔍 Fetching scores. Last Key: ${lastKey || "None (First Page)"}`);
+  
+      let scoresQuery;
+  
+      if (lastKey) {
+        scoresQuery = query(
+          ref(db, SCORES_COLLECTION),
+          orderByKey(), // ✅ Order by key (Firebase unique IDs)
+          startAt(lastKey), // ✅ Fetch next batch after last key
+          limitToFirst(scoresPerPage + 1) // ✅ Fetch extra item to detect next page
+        );
+      } else {
+        scoresQuery = query(
+          ref(db, SCORES_COLLECTION),
+          orderByKey(), // ✅ Order by key (Firebase unique IDs)
+          limitToFirst(scoresPerPage + 1) // ✅ Fetch extra item to detect next page
+        );
+      }
+  
+      const snapshot = await get(scoresQuery);
+      if (!snapshot.exists()) {
+        console.warn("⚠️ No high scores found!");
+        return { scores: [], lastKey: null, hasNext: false };
+      }
+  
+      let scoresArray = [];
+      let newLastKey = null;
+  
+      snapshot.forEach((childSnapshot) => {
+        const username = childSnapshot.key;
+        const userScores = childSnapshot.val();
+  
+        Object.entries(userScores).forEach(([scoreId, scoreData]) => {
+          if (typeof scoreData === "object" && scoreData.score !== undefined) {
+            scoresArray.push({
+              id: scoreId,
+              username: username,
+              score: scoreData.score,
+              timestamp: scoreData.timestamp || null,
+            });
+          }
+        });
+  
+        newLastKey = childSnapshot.key; // ✅ Track last retrieved key
+      });
+  
+      // ✅ Check if there's a next page by ensuring we fetched extra items
+      const hasNext = scoresArray.length > scoresPerPage;
+      if (hasNext) scoresArray.pop(); // Remove the extra item
+  
+      console.log(`✅ Retrieved ${scoresArray.length} scores. More pages? ${hasNext}`);
+  
+      return { scores: scoresArray, lastKey: newLastKey, hasNext };
+    } catch (error) {
+      console.error("❌ Error retrieving paginated scores:", error);
+      return { scores: [], lastKey: null, hasNext: false };
+    }
+  };

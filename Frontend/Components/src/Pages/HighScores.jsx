@@ -1,67 +1,84 @@
 import React, { useEffect, useState } from "react";
-import { getHighScores } from "../CRUD";
+import { getHighScoresPaginated } from "../CRUD"; // Import function
 
-console.log("✅ HighScoresPage is mounting!");
 const HighScoresPage = () => {
-  const [scores, setScores] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const scoresPerPage = 50;
+  const [scores, setScores] = useState([]); // Stores paginated scores
+  const [page, setPage] = useState(1); // ✅ Track current page number
+  const scoresPerPage = 10; // ✅ Limit to 10 per page
+  const [lastKey, setLastKey] = useState(null); // ✅ Track last key for Firebase pagination
+  const [hasMore, setHasMore] = useState(true); // ✅ Detect next page
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchScores();
-  }, [currentPage]);
+  }, [page]);
 
   const fetchScores = async () => {
     try {
-      console.log("⏳ Fetching high scores...");
-      const allScores = await getHighScores();
-      console.log("✅ Fetched Scores:", allScores);
+      setLoading(true);
+      console.log(`⏳ Fetching scores for Page ${page}...`);
 
-      if (!allScores) {
-        console.error("❌ No scores found! Database might be empty.");
+      const { scores: fetchedScores, lastKey: newLastKey, hasNext } =
+        await getHighScoresPaginated(lastKey, scoresPerPage);
+
+      if (fetchedScores.length > 0) {
+        setScores(fetchedScores);
+        setLastKey(newLastKey); // ✅ Correctly track last key
+        setHasMore(hasNext); // ✅ Detects if there's a next page
+        console.log(`✅ Page ${page}: ${fetchedScores.length} scores loaded.`);
+      } else {
+        console.warn("⚠️ No more scores available.");
       }
-
-      const sortedScores = Object.entries(allScores || {})
-        .flatMap(([username, userScores]) =>
-          Object.entries(userScores).map(([scoreId, { score, timestamp }]) => ({
-            id: scoreId,
-            username,
-            score,
-            timestamp,
-          }))
-        )
-        .sort((a, b) => b.score - a.score);
-
-      const startIndex = (currentPage - 1) * scoresPerPage;
-      const paginatedScores = sortedScores.slice(startIndex, startIndex + scoresPerPage);
-      setScores(paginatedScores);
     } catch (error) {
-      console.error("❌ Error in fetchScores:", error);
+      console.error("❌ Error fetching scores:", error);
+    } finally {
+      setLoading(false);
     }
   };
-
 
   return (
     <div className="high-score-container">
       <div className="Highscore-title d-flex align-items-center justify-content-center">
         <h2>High Scores</h2>
       </div>
+
+      {loading ? <p>Loading...</p> : null}
+
       <ul className="ListedScores d-flex flex-column align-items-center justify-content-center">
         {scores.length > 0 ? (
           scores.map((entry, index) => (
             <li key={entry.id}>
-              {index + 1 + (currentPage - 1) * scoresPerPage}. Score: {entry.score}, Username: {entry.username}
+              {index + 1 + (page - 1) * scoresPerPage}. Score: {entry.score}, Username: {entry.username}
             </li>
           ))
         ) : (
           <p>No scores available</p>
         )}
       </ul>
-      <div className="pagination">
-        {currentPage > 1 && <button onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>}
-        {scores.length === scoresPerPage && <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>}
-      </div>
 
+      {/* Pagination Controls */}
+      <div className="pagination">
+        {page > 1 && (
+          <button
+            onClick={() => {
+              setPage(page - 1);
+              setLastKey(null); // ✅ Reset last key when going back
+            }}
+          >
+            Previous
+          </button>
+        )}
+
+        {hasMore && (
+          <button
+            onClick={() => {
+              setPage(page + 1);
+            }}
+          >
+            Next
+          </button>
+        )}
+      </div>
     </div>
   );
 };
