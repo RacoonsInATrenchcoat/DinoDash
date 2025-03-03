@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { getHighScoresPaginated } from "../CRUD"; // Import function
 
 const HighScoresPage = () => {
-  const [scores, setScores] = useState([]); // Stores paginated scores
-  const [page, setPage] = useState(1); // ✅ Track current page number
-  const scoresPerPage = 10; // ✅ Limit to 10 per page
+  const [scores, setScores] = useState([]);     // Stores paginated scores
+  const [page, setPage] = useState(1);          // ✅ Track current page number
+  const scoresPerPage = 10;                     // ✅ Limit to 10 per page
   const [lastKey, setLastKey] = useState(null); // ✅ Track last key for Firebase pagination
   const [hasMore, setHasMore] = useState(true); // ✅ Detect next page
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,6 @@ const HighScoresPage = () => {
   const fetchScores = async () => {
     try {
       setLoading(true);
-      console.log(`⏳ Fetching scores for Page ${page}...`);
 
       const { scores: fetchedScores, lastKey: newLastKey, hasNext } =
         await getHighScoresPaginated(lastKey, scoresPerPage);
@@ -25,7 +24,6 @@ const HighScoresPage = () => {
         setScores(fetchedScores);
         setLastKey(newLastKey); // ✅ Correctly track last key
         setHasMore(hasNext); // ✅ Detects if there's a next page
-        console.log(`✅ Page ${page}: ${fetchedScores.length} scores loaded.`);
       } else {
         console.warn("⚠️ No more scores available.");
       }
@@ -37,8 +35,8 @@ const HighScoresPage = () => {
   };
 
   return (
-    <div className="high-score-container">
-      <div className="Highscore-title d-flex align-items-center justify-content-center">
+    <div className="high-score-container d-flex align-items-center justify-content-center">
+      <div className="sigmar-regular Highscore-title d-flex align-items-center justify-content-center">
         <h2>High Scores</h2>
       </div>
 

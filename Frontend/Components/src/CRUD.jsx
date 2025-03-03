@@ -3,7 +3,7 @@ import { ref, push, get, update, remove, query, orderByKey, limitToFirst, startA
 
 const SCORES_COLLECTION = "highscores"; // The node in Realtime Database
 
-console.log("🔥 Firebase DB Instance:", db); //debug
+//console.log("🔥 Firebase DB Instance:", db); //debug
 
 
 // ✅ Function to submit a high score to Realtime Database

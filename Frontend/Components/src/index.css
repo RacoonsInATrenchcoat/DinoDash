@@ -1,23 +1,32 @@
 body {
   background-image: url("/static/Elements/Stone_Background.svg");
-  background-repeat:repeat;
+  background-repeat: repeat;
   background-size: 30%;
   background-position: center;
 
-  font-family: Arial, sans-serif;
+  font-family: "Luckiest Guy", sans-serif;
+  /*Refers to the sourced font, alternative as Sans*/
+  letter-spacing: 0.1rem;
+  /*Added for extra readability due to font. May need increase for larger sizes? */
+  font-size: 120%;
   color: white;
 }
 
+
 .navbar {
   background-color: grey;
-  background-image: 
-    url("/static/Elements/Stone_Background_navbar.svg"), 
-    url("/static/Elements/Stone_Background_navbar.svg"); /* Two instances */
+  background-image:
+    url("/static/Elements/Stone_Background_navbar.svg"),
+    url("/static/Elements/Stone_Background_navbar.svg");
+  /* Two instances */
 
-  background-size: 45vw, 45vw; /* Ensures each is 33.3vw wide & 50px tall */
-  background-position: left center, right center; /* One on the left, one on the right */
+  background-size: 45vw, 45vw;
+  /* Ensures each is 33.3vw wide & 50px tall */
+  background-position: left center, right center;
+  /* One on the left, one on the right */
   width: 100vw;
-  height: 50px; /* Forces height */
+  height: 50px;
+  /* Forces height */
 }
 
 
@@ -29,8 +38,39 @@ body {
   color: #ffcc00
 }
 
-.navBarDivider{
-  border:white 1px solid;
+.navBarDivider {
+  border: white 1px solid;
   height: 100%;
 }
 
+.vine {
+  position: absolute;
+  left: 0px;
+  top: 30px;
+  z-index: 10;
+  width: 100vw;
+  height: 100%;
+  aspect-ratio: auto;
+
+  background-image: url("/static/Elements/Vine.svg");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: 0 0;
+  image-rendering: pixelated;
+}
+
+.layout-container {
+  width: 100vw;
+}
+
+.navbar-left {
+  width: 25vw;
+}
+
+.navbar-center {
+  width: 50vw;
+}
+
+.navbar-right {
+  width: 25vw;
+}

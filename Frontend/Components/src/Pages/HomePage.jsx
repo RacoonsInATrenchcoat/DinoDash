@@ -53,9 +53,7 @@ const Homepage = () => {
                 Level {level}
               </button>
               <p>Different levels have different areas!</p>
-              <p>Level 1 is speed 5</p>
-              <p>Level 2 is speed 10</p>
-              <p>Level 3 is speed 15</p>
+              <p>Enemies and their speed also changes.</p>
               <div className="mt-5">
                 <p>Use SPACE to jump.</p>
                 <p>Beware! Your score only increases while you are not jumping!</p>

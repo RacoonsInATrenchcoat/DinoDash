@@ -1,12 +1,19 @@
-.sigmar-regular {  /*Font*/
+/*Display Font*/
+.sigmar-regular {
   font-family: "Sigmar", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/*Bodycopy Font*/
+.luckiest-guy-regular {
+  font-family: "Luckiest Guy", serif;
   font-weight: 400;
   font-style: normal;
 }
 
 .displayfont-text{
   color: antiquewhite;
-  margin-right: 10px;
   font-size: 150%;
   text-decoration: none; /*Removing the underline from link*/
 }
@@ -28,12 +35,18 @@
   justify-content: center;
 }
 
+.Highscore-title{
+  letter-spacing: 2px;
+  color: antiquewhite;
+}
+
 .ListedScores{
+  list-style-type: none;
 }
 
 .game-container {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: calc(100vh - 56px);
   overflow: hidden;
   background-color: lightblue;
@@ -52,10 +65,12 @@
   background-repeat: no-repeat;
   background-position: center;
   font-size: 110%;
+  overflow-wrap: normal;
 
   width: 100%;
   height: 75vh;
 }
+
 
 .dino,
 .cactus {
@@ -75,13 +90,52 @@
 }
 
 .cactus {
+  /*Pic details:
+  width: 693px;
+  height: 1068px;*/
   position: absolute;
   width: 150px;
-  height: 170px;
-  background-image: url("/static/cactus_1.png");
+  height: 250px;
+  background-image: url("/static/cactus.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 10;
+  bottom:0px;
+}
+
+.camel{
+  /*Pic details:
+  width: 714px;
+  height: 540px;*/
+  position: absolute;
+  width: 400px;
+  height: 250px;
+  background-image: url("/static/camel.svg");
   background-size: contain;
   background-repeat: no-repeat;
   z-index: 10;
+  bottom:0px;
+
+}
+
+.sabertooth_tiger{
+  /*Pic details:
+  width: 318px;
+  height: 204px;*/
+  position: absolute;
+  width: 318px;
+  height: 204px;
+  background-image: url("/static/sabertooth_tiger.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 10;
+  bottom:0px;
+}
+
+.error{
+  background-color: #cc0000;
+  width: 100px;
+  height: 100px;
 }
 
 .text-Centered-In-Image {

@@ -6,9 +6,7 @@ const VolumeContext = createContext();
 const LevelContext = createContext();
 
 export const ScoreProvider = ({ children }) => {
-  console.log("✅ ScoreProvider is rendering!");
   const [score, setScore] = useState(0);
-  console.log("🎯 ScoreProvider Value:", { score, setScore });
   return <ScoreContext.Provider value={{ score, setScore }}>{children}</ScoreContext.Provider>;
 };
 
@@ -34,8 +32,6 @@ export const LevelProvider = ({ children }) => {
 
 // ✅ Hooks for context usage with debugging logs
 export const useScoreContext = () => {
-  console.log("🔍 Checking useScoreContext()...");
-  console.log("🎯 Current ScoreContext Reference:", ScoreContext); // Log what ScoreContext actually is
   const context = useContext(ScoreContext);
   if (!context) {
     console.trace("❌ useScoreContext() was used outside of ScoreProvider!");
@@ -45,7 +41,6 @@ export const useScoreContext = () => {
 };
 
 export const useGameContext = () => {
-  console.log("🔍 Checking useGameContext()");
   const context = useContext(GameContext);
   if (!context) {
     console.error("❌ useGameContext() was used outside of GameProvider!");
@@ -54,7 +49,6 @@ export const useGameContext = () => {
 };
 
 export const useVolumeContext = () => {
-  console.log("🔍 Checking useVolumeContext()");
   const context = useContext(VolumeContext);
   if (!context) {
     console.error("❌ useVolumeContext() was used outside of VolumeProvider!");
@@ -63,7 +57,6 @@ export const useVolumeContext = () => {
 };
 
 export const useLevelContext = () => {
-  console.log("🔍 Checking useLevelContext()");
   const context = useContext(LevelContext);
   if (!context) {
     console.trace("❌ useLevelContext() was used outside of LevelProvider!");

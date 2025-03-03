@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useScoreContext, useGameContext, useVolumeContext, useLevelContext } from "./Context"; // ✅ Using Combined Context
 import { submitHighScore } from "./CRUD"; // Firebase interaction
 import { useDinoRotation } from "./Animation"; // ✅ Import rotation logic
@@ -9,7 +10,7 @@ import "./Gamelogic.css";
 const Gamelogic = () => {
 
   const dinoWidth = 150, dinoHeight = 150;
-  const cactusWidth = 150, cactusHeight = 170;
+  const enemyWidth = 150, enemyHeight = 170;
 
   //Contexts
   const { score, setScore } = useScoreContext();
@@ -17,16 +18,20 @@ const Gamelogic = () => {
   const { volume } = useVolumeContext();
   const { level } = useLevelContext();
 
+  const DINO_START_HEIGHT = 40;
+  const enemy_Start_Height = 40;
+  const musicFile = "/static/jump_1.mp3";
+
   const JUMP_HEIGHT = 450;
   const JUMP_SPEED = level === 1 ? 8 : level === 2 ? 11 : 13; // If 1, then 8, if 2 then 11, otherwise set as 13
-  const DINO_START_HEIGHT = 40;
-  const CACTUS_START_HEIGHT = 40;
-  const musicFile = "/static/jump_1.mp3";
-  const initialCactusSpeed = level === 1 ? 10 : level === 2 ? 12 : 15;// If 1, then 10, if 2 then 12, otherwise set as 15
-  const [cactusSpeed, setCactusSpeed] = useState(initialCactusSpeed);
+
+  const initialEnemySpeed = level === 1 ? 5 : level === 2 ? 6 : 7;// If 1, then 10, if 2 then 12, otherwise set as 15
+  const [enemySpeed, setenemySpeed] = useState(initialEnemySpeed);
+  const enemyType = level === 1 ? "cactus" : level === 2 ? "camel" : level === 3 ? "sabertooth_tiger" :"error";
+
 
   //States
-  const [cactusPosition, setCactusPosition] = useState(window.innerWidth);
+  const [enemyPosition, setEnemyPosition] = useState(window.innerWidth);
   const [dinoPosition, setDinoPosition] = useState(DINO_START_HEIGHT);
   const [isJumping, setIsJumping] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
@@ -45,21 +50,29 @@ const Gamelogic = () => {
     setIsGameOver(false);
     setIsRunning(true); // ✅ Resume game & background movement
     setIsPlaying(true); // ✅ Start music when game starts
-    setCactusPosition(window.innerWidth);
+    setEnemyPosition(window.innerWidth);
     setDinoPosition(DINO_START_HEIGHT);
     setScore(0); // ✅ Ensures score resets properly
     setIsJumping(false);
     setPlayerName(""); // ✅ Clears input on restart
-    setCactusSpeed(initialCactusSpeed);
+    setenemySpeed(initialEnemySpeed);
 
     intervalRef.current = setInterval(() => {
-      setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - cactusSpeed));
+      setEnemyPosition((prev) => (prev <= -enemyWidth ? window.innerWidth : prev - enemySpeed));
     }, 20);
 
     scoreIntervalRef.current = setInterval(() => {
       setScore((prev) => prev + 1);
     }, 100);
   };
+
+  const navigate = useNavigate();
+
+  const handleGoToMenu = () => { //separated from above due to moving ontop of reset
+    navigate("/");
+    window.location.reload(); //force reload everything
+  };
+  
 
   useEffect(() => { //Needed to have the next sound not play the old value but instantly get the new volume
     if (isRunning) {
@@ -69,44 +82,68 @@ const Gamelogic = () => {
     }
   }, [isRunning, volume]);
 
-  useEffect(() => {
+//Separated Effect for enemy movement.
+ //NOTE! Chrome had issues with setInterval and switched to "requestanimationframe". It matches the Screen Refresh Rate (60 FPS), which is bad, but works now.
+ 
+ useEffect(() => { 
+  if (!isRunning || isGameOver) return;
+
+  let lastTime = performance.now();
+  const baseFrameTime = 1000 / 60; // 16.67ms per frame (60 FPS)
+
+  let animationFrameId; // ✅ Store requestAnimationFrame ID
+
+  const moveEnemy = (currentTime) => {
     if (!isRunning || isGameOver) return;
 
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
-      setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - cactusSpeed));
-    }, 20);
+    let deltaTime = currentTime - lastTime;
+    lastTime = currentTime;
 
-    return () => {
-      clearInterval(intervalRef.current);
-    };
-  }, [setScore, cactusSpeed]);
+    deltaTime = Math.min(deltaTime, 30); // Prevents huge movement jumps
 
-  useEffect(() => {
-    if (isGameOver || !isRunning) return;
+    const normalizedDelta = deltaTime / baseFrameTime; // Normalize to 60 FPS
 
+    setEnemyPosition((prev) => (prev <= -enemyWidth ? window.innerWidth : prev - enemySpeed * normalizedDelta));
+
+    animationFrameId = requestAnimationFrame(moveEnemy); // ✅ Store ID
+  };
+
+  animationFrameId = requestAnimationFrame(moveEnemy); // ✅ Start animation
+
+  return () => cancelAnimationFrame(animationFrameId); // ✅ Correctly cancels frame
+}, [isRunning, isGameOver, enemySpeed]);
+
+
+
+  useEffect(() => { //Separated effect for the Score Update
+    if (!isRunning || isGameOver) return;
+  
     clearInterval(scoreIntervalRef.current);
+    
     scoreIntervalRef.current = setInterval(() => {
-        setScore((prev) => prev + 1);
+      setScore((prev) => prev + 1);
     }, 100);
-
+  
     return () => clearInterval(scoreIntervalRef.current);
-}, [isRunning, isGameOver]); // ✅ No movement dependencies!
+  }, [isRunning, isGameOver]);
 
-
+  //Jumping logic
   useEffect(() => {
     const handleJump = (event) => {
       if (event.code === "Space" && !isJumping && isRunning) {
         setIsJumping(true);
         let position = dinoPosition;
-
+  
         const audio = new Audio(musicFile);
         audio.volume = volume / 100;
         audio.play();
-
+  
+        // Jump Up
         const upInterval = setInterval(() => {
           if (position >= JUMP_HEIGHT) {
             clearInterval(upInterval);
+            
+            // Fall Down
             const downInterval = setInterval(() => {
               if (position <= DINO_START_HEIGHT) {
                 clearInterval(downInterval);
@@ -124,11 +161,11 @@ const Gamelogic = () => {
         }, 20);
       }
     };
-
+  
     if (isRunning) {
       document.addEventListener("keydown", handleJump);
     }
-
+  
     return () => document.removeEventListener("keydown", handleJump);
   }, [isJumping, isRunning]);
 
@@ -139,12 +176,12 @@ const Gamelogic = () => {
     clearInterval(scoreIntervalRef.current);
 
     intervalRef.current = setInterval(() => {
-      setCactusPosition((prev) => (prev <= -50 ? window.innerWidth : prev - cactusSpeed));
+      setEnemyPosition((prev) => (prev <= -enemyWidth ? window.innerWidth : prev - enemySpeed));
       const dinoX = 100, dinoY = dinoPosition;
-      const cactusX = cactusPosition, cactusY = CACTUS_START_HEIGHT;
+      const enemyX = enemyPosition, enemyY = enemy_Start_Height;
 
-      const xCollision = cactusX < dinoX + dinoWidth && cactusX + cactusWidth > dinoX;
-      const yCollision = cactusY < dinoY + dinoHeight && cactusY + cactusHeight > dinoY;
+      const xCollision = enemyX < dinoX + dinoWidth && enemyX + enemyWidth > dinoX;
+      const yCollision = enemyY < dinoY + dinoHeight && enemyY + enemyHeight > dinoY;
 
       if (xCollision && yCollision) {
         setIsGameOver(true);
@@ -166,7 +203,7 @@ const Gamelogic = () => {
       clearInterval(intervalRef.current);
       clearInterval(scoreIntervalRef.current);
     };
-  }, [isRunning, isGameOver, cactusSpeed, dinoPosition, score]);
+  }, [isRunning, isGameOver, enemySpeed, dinoPosition, score]);
 
   // ✅ Submit high score to Firebase
   const handleSubmitScore = () => {
@@ -200,7 +237,7 @@ const Gamelogic = () => {
       {isGameOver && (
         <div className="game-over-overlay">
           <div className="game-over-menu">
-            <p>Seems you have hugged a cactus. Ouch.</p>
+          <p>Seems you have hugged a {enemyType}. Ouch!</p>
             <p>High Score: {highScore}</p>
             <input
               type="text"
@@ -210,6 +247,7 @@ const Gamelogic = () => {
             />
             <button onClick={handleSubmitScore}>Submit Score</button>
             <button onClick={startGame}>Restart</button>
+            <button onClick={handleGoToMenu}>Go back to menu</button>
           </div>
         </div>
       )}
@@ -225,7 +263,10 @@ const Gamelogic = () => {
             transition: "transform 1s ease-in-out", // ✅ Smooth transition
           }}
         ></div>
-        <div className="cactus" style={{ left: `${cactusPosition}px` }}></div>
+        <div
+          className={enemyType}
+
+          style={{ left: `${enemyPosition}px` }}></div>
       </div>
     </div>
   );

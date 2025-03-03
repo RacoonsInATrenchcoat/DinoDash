@@ -19,7 +19,6 @@ const router = createBrowserRouter([
 
 
 const AppRouter = () => {
-  console.log("AppRouter is mounting!"); // ✅ Log before rendering RouterProvider
 
   try {
     return <RouterProvider router={router} />;
