@@ -1,23 +1,4 @@
-/*Display Font*/
-.sigmar-regular {
-  font-family: "Sigmar", serif;
-  font-weight: 400;
-  font-style: normal;
-}
 
-/*Bodycopy Font*/
-.luckiest-guy-regular {
-  font-family: "Luckiest Guy", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.displayfont-text{
-  color: antiquewhite;
-  font-size: 150%;
-  text-decoration: none; /*Removing the underline from link*/
-  margin-top: 10px;
-}
 
 .high-score-container{
   position: relative;
@@ -144,6 +125,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  font-size: 150%;
+  font-family: "Luckiest Guy", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .score-container {

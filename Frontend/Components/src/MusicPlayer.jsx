@@ -45,8 +45,6 @@ const MusicPlayer = ({ isPlaying }) => {
     if (lastPlayedTrack.current === newSrc) return; // ✅ Prevent unnecessary updates
     lastPlayedTrack.current = newSrc;
 
-    console.log(`🎵 Switching music to: ${newSrc}`);
-
     audio.pause();
     audio.src = newSrc;
     audio.load(); // ✅ Ensure the new track is properly loaded

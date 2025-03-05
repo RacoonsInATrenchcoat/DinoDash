@@ -6,8 +6,8 @@ export const useDinoRotation = () => {
 
   useEffect(() => {
     const rotateInterval = setInterval(() => {
-      setDinoAngle((prevAngle) => (prevAngle === -15 ? 15 : -15));
-    }, 1000); // ✅ Rotate every second
+      setDinoAngle((prevAngle) => (prevAngle === -10 ? 10 : -10));
+    }, 800); // ✅ Rotate every second
 
     return () => clearInterval(rotateInterval);
   }, []);

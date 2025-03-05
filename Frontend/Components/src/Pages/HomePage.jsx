@@ -43,15 +43,19 @@ const Homepage = () => {
 
             <div className="menu-container d-flex justify-content-center" onClick={startGame}>
               <img src="/static/Elements/Wooden_Button_1.svg" alt="Wooden Button" />
-              <div className="text-Centered-In-Image">Start game</div>
+              <div className="text-Centered-In-Image">Start</div>
             </div>
             {/*<button onClick={startGame} className="start-btn">Start Game</button>*/}
 
             <div className="d-flex flex-column align-items-center justify-content-center">
+              <br />
+              <br />
               <p className="me-3 mb-0">Select level:</p>
               <button className="btn btn-secondary" onClick={nextLevel}>
                 Level {level}
               </button>
+              <br />
+              <br />
               <p>Different levels have different areas.</p>
               <p>Speed is increased, but so is the score!.</p>
               <div className="mt-5">

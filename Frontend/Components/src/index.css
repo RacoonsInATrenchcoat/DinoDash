@@ -4,13 +4,31 @@ body {
   background-size: 30%;
   background-position: center;
 
-  font-family: "Luckiest Guy", sans-serif;
-  /*Refers to the sourced font, alternative as Sans*/
-  letter-spacing: 0.1rem;
-  /*Added for extra readability due to font. May need increase for larger sizes? */
+  font-family: "Fredoka", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+
   font-size: 120%;
   color: white;
   overflow: hidden;
+}
+
+/*Display Font*/
+
+/*Bodycopy Font*/
+
+
+.displayfont-text{
+  font-family: "Luckiest Guy", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: antiquewhite;
+  font-size: 150%;
+  text-decoration: none; /*Removing the underline from link*/
+  margin-top: 10px;
 }
 
 
@@ -28,6 +46,9 @@ body {
   width: 100vw;
   height: 5vh;
   /* Forces height */
+  font-family: "Luckiest Guy", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
 
 
@@ -83,3 +104,10 @@ body {
 .homepage-container{
   height: 95vh;   
 }
+
+br {
+  display: block;
+  content: "";
+  margin-bottom: 10px; /* Adjusts spacing between lines */
+}
+
