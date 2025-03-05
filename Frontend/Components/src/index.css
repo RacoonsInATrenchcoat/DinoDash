@@ -10,6 +10,7 @@ body {
   /*Added for extra readability due to font. May need increase for larger sizes? */
   font-size: 120%;
   color: white;
+  overflow: hidden;
 }
 
 
@@ -25,7 +26,7 @@ body {
   background-position: left center, right center;
   /* One on the left, one on the right */
   width: 100vw;
-  height: 50px;
+  height: 5vh;
   /* Forces height */
 }
 
@@ -73,4 +74,12 @@ body {
 
 .navbar-right {
   width: 25vw;
+}
+
+.outlet{
+  height: 95vh;     
+}
+
+.homepage-container{
+  height: 95vh;   
 }

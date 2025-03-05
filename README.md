@@ -15,6 +15,8 @@ LizardWizard art - JuditMolnarDesign
 Display font: Sigmar - https://fonts.google.com/specimen/Sigmar?lang=en_Latn
 Bodycopy font: https://fonts.google.com/specimen/Luckiest+Guy
 
+Music files are from the great Transport Tycoon Deluxe.
+
 Notes to self:
 
 Deploy Project Console: https://console.firebase.google.com/project/dino-dash-66723/overview

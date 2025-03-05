@@ -17,7 +17,11 @@ const Navbar = () => {
         <div className="navbar-left d-flex align-items-center justify-content-start">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
             <li className="nav-item">
-              <Link className="nav-link" aria-current="page" to="/">Home</Link>
+              <Link
+                className="nav-link"
+                aria-current="page"
+                to="/"
+                onClick={() => window.location.href = "/"} >Home</Link>
             </li>
             <div className="navBarDivider"></div>
             <li className="nav-item">
@@ -28,14 +32,16 @@ const Navbar = () => {
 
         {/* Center Section */}
         <div className="navbar-center text-center flex-grow-1 justify-content-center">
-          <p className="sigmar-regular displayfont-text">Dino Dash</p>
+          <p className="sigmar-regular displayfont-text">Lizard Wizard</p>
         </div>
 
         {/* Right Section */}
         <div className="navbar-right d-flex align-items-center justify-content-end">
-          <div className="nav-score">Score: {score}</div>
-          <div className="volume-control d-flex align-items-center">
-            <label htmlFor="volume">Volume:</label>
+          <div className="score-container">
+            <p className="game-score">Score: {score}</p>
+          </div>
+          <div className="volume-control d-flex">
+            <label htmlFor="volume align-items-center">Volume:</label>
             <div className="custom-slider">
               <input
                 id="volume"

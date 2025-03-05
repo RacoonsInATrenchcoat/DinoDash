@@ -52,11 +52,10 @@ const Homepage = () => {
               <button className="btn btn-secondary" onClick={nextLevel}>
                 Level {level}
               </button>
-              <p>Different levels have different areas!</p>
-              <p>Enemies and their speed also changes.</p>
+              <p>Different levels have different areas.</p>
+              <p>Speed is increased, but so is the score!.</p>
               <div className="mt-5">
                 <p>Use SPACE to jump.</p>
-                <p>Beware! Your score only increases while you are not jumping!</p>
               </div>
             </div>
           </div>
