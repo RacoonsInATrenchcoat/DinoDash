@@ -260,10 +260,16 @@ const Gamelogic = () => {
     };
   }, [isRunning, isGameOver, dinoPosition, score]);
 
-  // ✅ Submit high score to Firebase
   const handleSubmitScore = () => {
     if (playerName.trim() !== "") {
-      submitHighScore(playerName, score);
+      submitHighScore(playerName, score)
+        .then(() => {
+          window.alert("High score submitted! Click OK to continue.");
+        })
+        .catch((error) => {
+          console.error("Error submitting high score:", error);
+          window.alert("There was an error submitting your score. Please try again.");
+        });
     }
   };
 

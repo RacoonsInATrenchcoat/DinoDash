@@ -16,10 +16,6 @@ body {
   overflow: hidden;
 }
 
-/*Display Font*/
-
-/*Bodycopy Font*/
-
 
 .displayfont-text{
   font-family: "Luckiest Guy", sans-serif;
@@ -30,6 +26,7 @@ body {
   text-decoration: none; /*Removing the underline from link*/
   margin-top: 10px;
 }
+
 
 
 .navbar {

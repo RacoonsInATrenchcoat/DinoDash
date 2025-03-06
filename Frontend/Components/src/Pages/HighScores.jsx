@@ -1,48 +1,48 @@
 import React, { useEffect, useState } from "react";
-import { getHighScoresPaginated } from "../CRUD"; // Import function
+import { getHighScoresPaginated } from "../CRUD";
 
 const HighScoresPage = () => {
-  const [scores, setScores] = useState([]);     // Stores paginated scores
-  const [page, setPage] = useState(1);          // ✅ Track current page number
-  const scoresPerPage = 10;                     // ✅ Limit to 10 per page
-  const [lastKey, setLastKey] = useState(null); // ✅ Track last key for Firebase pagination
-  const [hasMore, setHasMore] = useState(true); // ✅ Detect next page
+  const [scores, setScores] = useState([]); // Stores paginated scores
+  const [lastScore, setLastScore] = useState(null); // Track last score for pagination
+  const [hasMore, setHasMore] = useState(true); // Detect if there's a next page
   const [loading, setLoading] = useState(false);
+  const scoresPerPage = 10; // Limit to 10 items per page
+  const [page, setPage] = useState(1); // Track current page number
 
   useEffect(() => {
     fetchScores();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const fetchScores = async () => {
     try {
       setLoading(true);
-
-      const { scores: fetchedScores, lastKey: newLastKey, hasNext } =
-        await getHighScoresPaginated(lastKey, scoresPerPage);
-
+      const { scores: fetchedScores, lastScore: newLastScore, hasNext } =
+        await getHighScoresPaginated(lastScore, scoresPerPage);
       if (fetchedScores.length > 0) {
         setScores(fetchedScores);
-        setLastKey(newLastKey); // ✅ Correctly track last key
-        setHasMore(hasNext); // ✅ Detects if there's a next page
+        setLastScore(newLastScore);
+        setHasMore(hasNext);
       } else {
-        console.warn("⚠️ No more scores available.");
+        console.warn("No scores available.");
+        setScores([]); // Ensure we show "No scores available"
       }
     } catch (error) {
-      console.error("❌ Error fetching scores:", error);
+      console.error("Error fetching scores:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="high-score-container d-flex align-items-center justify-content-center">
-      <div className="sigmar-regular Highscore-title d-flex align-items-center justify-content-center">
+    <div className="high-score-container d-flex justify-content-center">
+      <div className="sigmar-regular Highscore-title d-flex justify-content-center">
         <h2>High Scores</h2>
       </div>
 
-      {loading ? <p>Loading...</p> : null}
+      {loading && <p>Loading...</p>}
 
-      <ul className="ListedScores d-flex flex-column align-items-center justify-content-center">
+      <ul className="ListedScores d-flex flex-column justify-content-center">
         {scores.length > 0 ? (
           scores.map((entry, index) => (
             <li key={entry.id}>
@@ -60,7 +60,7 @@ const HighScoresPage = () => {
           <button
             onClick={() => {
               setPage(page - 1);
-              setLastKey(null); // ✅ Reset last key when going back
+              setLastScore(null); // Reset lastScore when going back
             }}
           >
             Previous
@@ -68,11 +68,7 @@ const HighScoresPage = () => {
         )}
 
         {hasMore && (
-          <button
-            onClick={() => {
-              setPage(page + 1);
-            }}
-          >
+          <button onClick={() => setPage(page + 1)}>
             Next
           </button>
         )}
