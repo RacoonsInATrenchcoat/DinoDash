@@ -15,6 +15,9 @@ LizardWizard art - JuditMolnarDesign
 Display font: Sigmar - https://fonts.google.com/specimen/Sigmar?lang=en_Latn
 Bodycopy font: Fredoka - https://fonts.google.com/specimen/Fredoka
 
+Sound effect: 
+Jump - https://pixabay.com/sound-effects/cartoon-jump-6462/
+Lose - https://freesound.org/people/cabled_mess/sounds/350985/
 Music files are from the great Transport Tycoon Deluxe.
 
 Notes to self:

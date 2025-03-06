@@ -4,7 +4,9 @@ const Preloader = () => {
   useEffect(() => {
     const imagePaths = [
       "/static/lizardwizard_150x150.png",
-      "/static/cactus_1.png",
+      "/static/cactus_1.svg",
+      "/static/camel.svg",
+      "/static/sabertooth_tiger.svg",
 
       "/static/lvl1/background_1.png",
       "/static/lvl1/background_2.png",
