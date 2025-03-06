@@ -15,8 +15,8 @@ const Gamelogic = () => {
   const { volume } = useVolumeContext();
   const { level } = useLevelContext();
 
-  const dinoWidth = 150, dinoHeight = 150;
-  const enemyWidth = level === 1 ? 85  //added -15 for better "feeling", even if incorrect
+  const dinoWidth = 140, dinoHeight = 140;
+  const enemyWidth = level === 1 ? 85     //added -15 for better "feeling", even if incorrect
     : level === 2 ? 235
       : 285;
   const enemyHeight = level === 1 ? 185
@@ -42,7 +42,7 @@ const Gamelogic = () => {
   };
 
   const JUMP_HEIGHT = 500;
-  const JUMP_SPEED = level === 1 ? 7 : level === 2 ? 9 : 11; // If 1, then 7, if 2 then 10, otherwise set as 12
+  const JUMP_SPEED = level === 1 ? 8 : level === 2 ? 9 : 11; // If 1, then 8, if 2 then 10, otherwise set as 12
 
   const initialEnemySpeed = level === 1 ? 5 : level === 2 ? 7 : 10;
   const [enemySpeed, setenemySpeed] = useState(initialEnemySpeed);

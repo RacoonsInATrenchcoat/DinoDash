@@ -1,7 +1,7 @@
-First of all, hello!
+Hello!
 If you got this far then congratulations! Feel free to mention on the interview that first drink is on me.
 
-Built on Firefox, but switched to Chrome for consistency with worldwide methods. (+setInterval issues)
+Built on Firefox, but switched to Chrome for consistency with worldwide methods. (+ setInterval issues)
 
 Assets used:
 Backgrounds - https://craftpix.net/freebies/free-desert-scrolling-2d-game-backgrounds/
@@ -13,7 +13,7 @@ Sabertooth tiger - https://www.freepik.com/free-vector/saber-toothed-cat-vector_
 LizardWizard art - JuditMolnarDesign
 
 Display font: Sigmar - https://fonts.google.com/specimen/Sigmar?lang=en_Latn
-Bodycopy font: https://fonts.google.com/specimen/Luckiest+Guy
+Bodycopy font: Fredoka - https://fonts.google.com/specimen/Fredoka
 
 Music files are from the great Transport Tycoon Deluxe.
 
