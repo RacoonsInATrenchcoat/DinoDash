@@ -1,78 +1,105 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useScoreContext, useGameContext, useVolumeContext, useLevelContext } from "./Context"; // ✅ Using Combined Context
+import {
+  useScoreContext,
+  useGameContext,
+  useVolumeContext,
+  useLevelContext,
+  useMusicContext // Import new music context
+} from "./Context"; // ✅ Using Combined Context
 import { submitHighScore } from "./CRUD"; // Firebase interaction
 import { useDinoRotation } from "./Animation"; // ✅ Import rotation logic
 import Background from "./Background";
-import MusicPlayer from "./MusicPlayer"; // ✅ Import music player
 import "./Gamelogic.css";
 
 const Gamelogic = () => {
-
-  //Contexts
+  // Contexts
   const { score, setScore } = useScoreContext();
-  const { isRunning, setIsRunning } = useGameContext(); // ✅ Game state context
-  const { volume } = useVolumeContext();
+  const { isRunning, setIsRunning } = useGameContext();
   const { level } = useLevelContext();
+  const { isPlaying, setIsPlaying } = useMusicContext(); // Use MusicContext instead of local state
 
-  const dinoWidth = 140, dinoHeight = 140;
-  const enemyWidth = level === 1 ? 85     //added -15 for better "feeling", even if incorrect
-    : level === 2 ? 235
-      : 285;
-  const enemyHeight = level === 1 ? 185
-    : level === 2 ? 185
-      : 185;
-
+ 
+  const dinoWidth = 140,
+    dinoHeight = 140;
+  const enemyWidth =
+    level === 1 ? 85 : level === 2 ? 235 : 285; // added -15 for better "feeling"
+  const enemyHeight = 185; // Same for all levels
   const DINO_START_HEIGHT = 40;
   const enemy_Start_Height = 40;
-  //Preload audio
-  const audioJump = new Audio("/static/jump_1.mp3");
-  const audioLose = new Audio("/static/lose.wav");
-  audioJump.preload = "auto";
-  audioLose.preload = "auto";
+
+
+  //Audio
+  
+  const audioJumpRef = useRef(null);
+  const audioLoseRef = useRef(null);
+
+  useEffect(() => {
+    if (!audioJumpRef.current) {
+      audioJumpRef.current = new Audio("/static/jump_1.mp3");
+      audioJumpRef.current.preload = "auto";
+    }
+    if (!audioLoseRef.current) {
+      audioLoseRef.current = new Audio("/static/lose.wav");
+      audioLoseRef.current.preload = "auto";
+    }
+  }, []); // Empty dependency array to run once on mount
+
+  const { volume } = useVolumeContext();
+  // ... other context and state definitions
 
   const playAudioJump = () => {
-    audioJump.volume = volume / 100; //Needed to conver to 0.0 (mute) and 1.0 (full volume)
-    audioJump.play();
+    if (audioJumpRef.current) {
+      audioJumpRef.current.volume = volume / 100;
+      audioJumpRef.current.currentTime = 0; // Reset if needed
+      audioJumpRef.current.play();
+    }
   };
 
   const playAudioLose = () => {
-    audioLose.volume = Math.min(volume / 100 + 0.5, 1.0); //Adding a bit extra volume to be audible
-    audioLose.play();
+    if (audioLoseRef.current) {
+      audioLoseRef.current.volume = Math.min(volume / 100 + 0.5, 1.0);
+      audioLoseRef.current.currentTime = 0;
+      audioLoseRef.current.play();
+    }
   };
 
-  const JUMP_HEIGHT = 500;
-  const JUMP_SPEED = level === 1 ? 8 : level === 2 ? 9 : 11; // If 1, then 8, if 2 then 10, otherwise set as 12
 
+
+  const JUMP_HEIGHT = 500;
+  const JUMP_SPEED = level === 1 ? 8 : level === 2 ? 9 : 11;
   const initialEnemySpeed = level === 1 ? 5 : level === 2 ? 7 : 10;
   const [enemySpeed, setenemySpeed] = useState(initialEnemySpeed);
-  const enemyType = level === 1 ? "cactus" : level === 2 ? "camel" : level === 3 ? "sabertooth_tiger" : "error";
-  const scoreMultiplier = level === 1 ? 1 : level === 2 ? 2 : 3;  //Higher score based on lvl
+  const enemyType =
+    level === 1
+      ? "cactus"
+      : level === 2
+      ? "camel"
+      : level === 3
+      ? "sabertooth_tiger"
+      : "error";
+  const scoreMultiplier = level === 1 ? 1 : level === 2 ? 2 : 3; // Higher score based on level
 
-
-  //States
+  // States
   const [enemyPosition, setEnemyPosition] = useState(window.innerWidth);
   const [dinoPosition, setDinoPosition] = useState(DINO_START_HEIGHT);
   const [isJumping, setIsJumping] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [highScore, setHighScore] = useState(0);
   const [playerName, setPlayerName] = useState("");
-  const [isPlaying, setIsPlaying] = useState(false); // ✅ Manages music state
+  // Removed local isPlaying state – it now comes from MusicContext
 
-  const dinoAngle = useDinoRotation(); // ✅ Get rotation from Animation.jsx
-  const intervalRef = useRef(null);
+  const dinoAngle = useDinoRotation();
   const scoreIntervalRef = useRef(null);
   const enemyPositionRef = useRef(window.innerWidth);
-  const enemyAnimationFrameRef = useRef(null);  // ✅ Initialize enemy animation frame ref
-
+  const enemyAnimationFrameRef = useRef(null);
 
   const startGame = () => {
-    clearInterval(intervalRef.current);
     clearInterval(scoreIntervalRef.current);
 
     setIsGameOver(false);
     setIsRunning(false);
-    setIsPlaying(true);
+    setIsPlaying(true); // Set music playing via context
     setEnemyPosition(window.innerWidth);
     setDinoPosition(DINO_START_HEIGHT);
     setScore(0);
@@ -95,125 +122,132 @@ const Gamelogic = () => {
 
   const navigate = useNavigate();
 
-  const handleGoToMenu = () => { //separated from above due to moving ontop of reset
+  const handleGoToMenu = () => {
     navigate("/");
-    window.location.reload(); //force reload everything
+    window.location.reload(); // Force reload everything
   };
 
-
-
-  //Separated Effect for enemy movement.
-  //NOTE! Chrome had issues with setInterval and switched to "requestanimationframe". It matches the Screen Refresh Rate (60 FPS), which is bad, but works now.
-
+  // Optimized enemy movement effect using time-based delta calculation.
   useEffect(() => {
     if (!isRunning || isGameOver) return;
-
     let lastTime = performance.now();
     const TARGET_FRAME_TIME = 16.67;
-    let accumulatedTime = 0;
 
     const moveEnemy = (currentTime) => {
       if (!isRunning || isGameOver) return;
 
-      let deltaTime = currentTime - lastTime;
+      const deltaTime = currentTime - lastTime;
       lastTime = currentTime;
-      accumulatedTime += deltaTime;
-
-      while (accumulatedTime >= TARGET_FRAME_TIME) {
-        enemyPositionRef.current = enemyPositionRef.current <= -enemyWidth * 2
-          ? window.innerWidth
-          : enemyPositionRef.current - enemySpeed;
-        accumulatedTime -= TARGET_FRAME_TIME;
+      // Calculate movement distance proportionate to elapsed time.
+      const distance = enemySpeed * (deltaTime / TARGET_FRAME_TIME);
+      let newPos = enemyPositionRef.current - distance;
+      if (newPos <= -enemyWidth * 2) {
+        newPos = window.innerWidth;
       }
-
-      setEnemyPosition(enemyPositionRef.current);
-      enemyAnimationFrameRef.current = requestAnimationFrame(moveEnemy); // ✅ Store ID
+      enemyPositionRef.current = newPos;
+      setEnemyPosition(newPos);
+      enemyAnimationFrameRef.current = requestAnimationFrame(moveEnemy);
     };
 
     enemyAnimationFrameRef.current = requestAnimationFrame(moveEnemy);
 
     return () => {
       if (enemyAnimationFrameRef.current) {
-        cancelAnimationFrame(enemyAnimationFrameRef.current); // ✅ Ensure it cancels properly
+        cancelAnimationFrame(enemyAnimationFrameRef.current);
       }
     };
-  }, [isRunning, isGameOver, enemySpeed]);
+  }, [isRunning, isGameOver, enemySpeed, enemyWidth]);
 
-  useEffect(() => { //Separated effect for the Score Update
+  // Score update effect remains the same.
+  useEffect(() => {
     if (!isRunning || isGameOver) return;
 
     clearInterval(scoreIntervalRef.current);
-
     scoreIntervalRef.current = setInterval(() => {
       setScore((prev) => prev + scoreMultiplier);
     }, 100);
 
     return () => clearInterval(scoreIntervalRef.current);
-  }, [isRunning, isGameOver]);
+  }, [isRunning, isGameOver, scoreMultiplier]);
 
-  //Jumping logic
+  // Optimized jumping logic using requestAnimationFrame.
   useEffect(() => {
     const handleJump = (event) => {
       if (event.code === "Space" && !isJumping && isRunning) {
         setIsJumping(true);
-        let position = dinoPosition;
+        playAudioJump();
 
-        playAudioJump(); //Call the previous preloaded sound
+        const startPos = dinoPosition;
+        const endPos = JUMP_HEIGHT;
+        const jumpDistance = endPos - startPos;
+        const intervalMs = 20; // Original update interval
+        const steps = jumpDistance / JUMP_SPEED;
+        const T_up = steps * intervalMs; // Total time for upward jump
 
-        // Jump Up
-        const upInterval = setInterval(() => {
-          if (position >= JUMP_HEIGHT) {
-            clearInterval(upInterval);
+        let startTime = null;
 
-            // Fall Down
-            const downInterval = setInterval(() => {
-              if (position <= DINO_START_HEIGHT) {
-                clearInterval(downInterval);
+        // Upward phase: smoothly move from startPos to endPos in T_up ms.
+        const animateUp = (timestamp) => {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          if (elapsed < T_up) {
+            const newPos = startPos + jumpDistance * (elapsed / T_up);
+            setDinoPosition(newPos);
+            requestAnimationFrame(animateUp);
+          } else {
+            setDinoPosition(endPos);
+            // Start downward phase.
+            let downStartTime = null;
+            const animateDown = (timestampDown) => {
+              if (!downStartTime) downStartTime = timestampDown;
+              const elapsedDown = timestampDown - downStartTime;
+              if (elapsedDown < T_up) {
+                const newPos = endPos - jumpDistance * (elapsedDown / T_up);
+                setDinoPosition(newPos);
+                requestAnimationFrame(animateDown);
+              } else {
                 setDinoPosition(DINO_START_HEIGHT);
                 setIsJumping(false);
-              } else {
-                position -= JUMP_SPEED;
-                setDinoPosition(position);
               }
-            }, 20);
-          } else {
-            position += JUMP_SPEED;
-            setDinoPosition(position);
+            };
+            requestAnimationFrame(animateDown);
           }
-        }, 20);
+        };
+
+        requestAnimationFrame(animateUp);
       }
     };
 
     if (isRunning) {
       document.addEventListener("keydown", handleJump);
     }
-
     return () => document.removeEventListener("keydown", handleJump);
-  }, [isJumping, isRunning]);
+  }, [isJumping, isRunning, dinoPosition]);
 
-  //Collision Detection
+  // Collision Detection remains unchanged.
   useEffect(() => {
-    if (!isRunning || isGameOver) return; // ✅ Stop checking if game is paused or over
-
+    if (!isRunning || isGameOver) return;
     let animationFrameId;
 
     const checkCollision = () => {
-      if (!isRunning || isGameOver) return; // ✅ Ensure it stops when paused
+      if (!isRunning || isGameOver) return;
 
-      const dinoX = 100, dinoY = dinoPosition;
-      const enemyX = enemyPositionRef.current; // ✅ Use real-time position
+      const dinoX = 100,
+        dinoY = dinoPosition;
+      const enemyX = enemyPositionRef.current;
       const enemyY = enemy_Start_Height;
 
-      const xCollision = enemyX < dinoX + dinoWidth && enemyX + enemyWidth > dinoX;
-      const yCollision = enemyY < dinoY + dinoHeight && enemyY + enemyHeight > dinoY;
+      const xCollision =
+        enemyX < dinoX + dinoWidth && enemyX + enemyWidth > dinoX;
+      const yCollision =
+        enemyY < dinoY + dinoHeight && enemyY + enemyHeight > dinoY;
 
       if (xCollision && yCollision) {
         setIsGameOver(true);
         setIsRunning(false);
         playAudioLose();
         setHighScore((prev) => Math.max(prev, score));
-
-        return; // ✅ Stop rechecking after collision
+        return;
       }
 
       animationFrameId = requestAnimationFrame(checkCollision);
@@ -222,10 +256,9 @@ const Gamelogic = () => {
     animationFrameId = requestAnimationFrame(checkCollision);
 
     return () => {
-      cancelAnimationFrame(animationFrameId); // ✅ Stops loop when effect exits
+      cancelAnimationFrame(animationFrameId);
     };
   }, [isRunning, isGameOver, dinoPosition, score]);
-
 
   // ✅ Submit high score to Firebase
   const handleSubmitScore = () => {
@@ -234,7 +267,7 @@ const Gamelogic = () => {
     }
   };
 
-  // ✅ Ensures first interaction enables music autoplay
+  // ✅ Ensures first interaction enables music autoplay via MusicContext.
   useEffect(() => {
     const handleUserInteraction = () => {
       setIsPlaying(true);
@@ -249,12 +282,11 @@ const Gamelogic = () => {
       window.removeEventListener("click", handleUserInteraction);
       window.removeEventListener("keydown", handleUserInteraction);
     };
-  }, []);
+  }, [setIsPlaying]);
 
   return (
     <div className="game-container">
       <Background />
-      <MusicPlayer isPlaying={isPlaying} volume={volume} />
 
       {isGameOver && (
         <div className="game-over-overlay">
@@ -281,14 +313,11 @@ const Gamelogic = () => {
           style={{
             bottom: `${dinoPosition}px`,
             left: "100px",
-            transform: `rotate(${dinoAngle}deg)`, // ✅ Uses external rotation logic
-            transition: "transform 1s ease-in-out", // ✅ Smooth transition
+            transform: `rotate(${dinoAngle}deg)`,
+            transition: "transform 1s ease-in-out"
           }}
         ></div>
-        <div
-          className={enemyType}
-
-          style={{ left: `${enemyPosition}px` }}></div>
+        <div className={enemyType} style={{ left: `${enemyPosition}px` }}></div>
       </div>
     </div>
   );

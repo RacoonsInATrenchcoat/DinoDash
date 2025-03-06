@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import Gamelogic from "../Gamelogic";
-import { useScoreContext, useLevelContext } from "../Context"; // ✅ Imported Level Context
+import MusicPlayer from "../MusicPlayer"; // Now rendered here
+import { useScoreContext, useLevelContext } from "../Context";
 import "../Gamelogic.css";
 
 const Homepage = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
-  const { setScore } = useScoreContext(); // ✅ Correctly using useScoreContext
-  const { level, nextLevel } = useLevelContext(); // ✅ Using level from context
+  const { setScore } = useScoreContext();
+  const { level, nextLevel } = useLevelContext();
 
   const startGame = () => {
     setGameStarted(true);
@@ -25,6 +26,9 @@ const Homepage = () => {
 
   return (
     <div className="homepage-container">
+      {/* MusicPlayer is now rendered at the top without receiving isPlaying as a prop */}
+      <MusicPlayer />
+
       {gameStarted ? (
         <>
           <Gamelogic isRunning={isRunning} onPause={pauseGame} />
@@ -32,7 +36,9 @@ const Homepage = () => {
             <div className="pause-overlay">
               <div className="pause-menu">
                 <h2>Game Paused</h2>
-                <button onClick={resumeGame} className="resume-btn">Resume Game</button>
+                <button onClick={resumeGame} className="resume-btn">
+                  Resume Game
+                </button>
               </div>
             </div>
           )}
@@ -40,13 +46,13 @@ const Homepage = () => {
       ) : (
         <div className="container text-center mt-5">
           <div className="main-menu-container d-flex flex-column align-items-center justify-content-center">
-
-            <div className="menu-container d-flex justify-content-center" onClick={startGame}>
+            <div
+              className="menu-container d-flex justify-content-center"
+              onClick={startGame}
+            >
               <img src="/static/Elements/Wooden_Button_1.svg" alt="Wooden Button" />
               <div className="text-Centered-In-Image">Start</div>
             </div>
-            {/*<button onClick={startGame} className="start-btn">Start Game</button>*/}
-
             <div className="d-flex flex-column align-items-center justify-content-center">
               <br />
               <br />
