@@ -32,7 +32,7 @@ const Navbar = () => {
 
         {/* Center Section */}
         <div className="navbar-center text-center flex-grow-1 justify-content-center">
-          <p className="sigmar-regular displayfont-text">LIZARD WIZARD</p>
+          <p className="sigmar-regular displayfont-text">DINO DASH</p>
         </div>
 
         {/* Right Section */}
