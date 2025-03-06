@@ -36,7 +36,7 @@ const HighScoresPage = () => {
 
   return (
     <div className="high-score-container d-flex justify-content-center">
-      <div className="sigmar-regular Highscore-title d-flex justify-content-center">
+      <div className="Highscore-title d-flex justify-content-center">
         <h2>High Scores</h2>
       </div>
 

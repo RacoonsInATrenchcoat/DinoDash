@@ -12,7 +12,7 @@ body {
     "wdth" 100;
 
   font-size: 120%;
-  color: white;
+  color: antiquewhite;
   overflow: hidden;
 }
 
@@ -50,15 +50,15 @@ body {
 
 
 .navbar .nav-link {
-  color: white
+  color: antiquewhite
 }
 
 .navbar .nav-link:hover {
-  color: #ffcc00
+  color: #ff6237;
 }
 
 .navBarDivider {
-  border: white 1px solid;
+  border: antiquewhite 1px solid;
   height: 100%;
 }
 
