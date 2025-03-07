@@ -5,23 +5,21 @@ import "./Gamelogic.css";
 const Background = () => {
   const { isRunning } = useGameContext();
   const { level } = useLevelContext();
-  const [position, setPosition] = useState(0);
+  // Store the raw offset (total pixels traveled)
+  const [rawOffset, setRawOffset] = useState(0);
 
   useEffect(() => {
     if (!isRunning) return;
     let animationFrameId;
     let startTime = null;
-    const cycle = window.innerWidth; // adjust if your repeat cycle is different
-    const speedFactor = 1; // pixels per 20ms (adjust to taste)
+    const speedFactor = 1; // pixels per 20ms
 
     const animate = (timestamp) => {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
-      // Calculate how many pixels to move: if you want 1 pixel every 20ms, then:
-      const offset = (elapsed / 20) * speedFactor;
-      // Use a continuous modulo that returns a value in [0, cycle)
-      const newPos = -((offset % cycle));
-      setPosition(newPos);
+      // Calculate raw offset without any modulo (we’ll apply modulo per layer)
+      const newOffset = (elapsed / 20) * speedFactor;
+      setRawOffset(newOffset);
       animationFrameId = requestAnimationFrame(animate);
     };
 
@@ -29,21 +27,35 @@ const Background = () => {
     return () => cancelAnimationFrame(animationFrameId);
   }, [isRunning]);
 
+  // For layers 3 & 4, the cycle is the viewport width.
+  const baseCycle = window.innerWidth; // e.g., 1080px
+  // For the foreground, the effective cycle is multiplied by 5.
+  const foregroundCycle = window.innerWidth * 5;
+
+  // Compute positions using modulo arithmetic:
+  const desertDecorPos = -(rawOffset % baseCycle); // for layers 3 and 4
+  const foregroundPos = -( (rawOffset * 5) % foregroundCycle );
+
   return (
     <div className="background-container">
+      {/* Layer 1: Sky (static) */}
       <div className={`background-layer Background-lvl${level}-sky-1`}></div>
+      {/* Layer 2: Outline-2 (static) */}
       <div className={`background-layer Background-lvl${level}-outline-2`}></div>
+      {/* Layer 3: Desert-3 (scrolls over 45s equivalent) */}
       <div
         className={`background-layer Background-lvl${level}-desert-3`}
-        style={{ backgroundPositionX: `${position}px` }}
+        style={{ backgroundPositionX: `${desertDecorPos}px` }}
       ></div>
+      {/* Layer 4: Decor-4 (scrolls together with desert-3) */}
       <div
         className={`background-layer Background-lvl${level}-decor-4`}
-        style={{ backgroundPositionX: `${position}px` }}
+        style={{ backgroundPositionX: `${desertDecorPos}px` }}
       ></div>
+      {/* Layer 5: Foreground-5 (scrolls faster with multiplier, effective cycle = window.innerWidth * 5) */}
       <div
         className={`background-layer Background-lvl${level}-foreground-5`}
-        style={{ backgroundPositionX: `${position * 4.5}px` }}
+        style={{ backgroundPositionX: `${foregroundPos}px` }}
       ></div>
     </div>
   );

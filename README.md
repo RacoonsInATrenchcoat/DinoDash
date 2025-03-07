@@ -10,6 +10,7 @@ Stone background - https://www.freepik.com/free-vector/wall-texture-with-cartoon
 Cactus: https://www.freepik.com/free-vector/exotic-cactus-plants-ceramic-pots_4882714.htm
 Camel - https://www.freepik.com/free-vector/camel_3146430.htm
 Sabertooth tiger - https://www.freepik.com/free-vector/saber-toothed-cat-vector_37881358.htm
+Triangle - https://www.flaticon.com/free-icon/down_5548140?term=triangle&related_id=5548140
 LizardWizard art - JuditMolnarDesign
 
 Display font: Sigmar - https://fonts.google.com/specimen/Sigmar?lang=en_Latn
@@ -46,3 +47,12 @@ When using requestAnimationFrame, the time between frames (deltaTime) varies:
     On 240Hz monitors → deltaTime ≈ 4.16ms per frame.
 
 Need to use "normalizedDelta" to force a consistent speed, instead of depending on client.
+
+
+Mobile:
+1, Cant force orientation by js.
+2, Add a icon/countdown to see when enemy will arrive?
+3, Metadata detection is there, but if unreliable the 900px height and 500px width should cover all mobiles, while ignoring tablets.
+
+Known bugs: 
+1,Foreground-5 looping is reset about every 10~ loops. =

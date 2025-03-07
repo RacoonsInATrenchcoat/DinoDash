@@ -1,36 +1,35 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMobileContext } from "./MobileMode"; // Separated mobile context
 import {
   useScoreContext,
   useGameContext,
   useVolumeContext,
   useLevelContext,
-  useMusicContext // Import new music context
-} from "./Context"; // ✅ Using Combined Context
+  useMusicContext,
+} from "./Context";
 import { submitHighScore } from "./CRUD"; // Firebase interaction
-import { useDinoRotation } from "./Animation"; // ✅ Import rotation logic
+import { useDinoRotation } from "./Animation"; // Import rotation logic
 import Background from "./Background";
 import "./Gamelogic.css";
 
 const Gamelogic = () => {
   // Contexts
+  const isMobile = useMobileContext();
   const { score, setScore } = useScoreContext();
   const { isRunning, setIsRunning } = useGameContext();
   const { level } = useLevelContext();
-  const { isPlaying, setIsPlaying } = useMusicContext(); // Use MusicContext instead of local state
+  const { isPlaying, setIsPlaying } = useMusicContext();
 
- 
   const dinoWidth = 140,
     dinoHeight = 140;
   const enemyWidth =
-    level === 1 ? 85 : level === 2 ? 235 : 285; // added -15 for better "feeling"
+    level === 1 ? 85 : level === 2 ? 235 : 285; // adjust for better "feeling"
   const enemyHeight = 185; // Same for all levels
   const DINO_START_HEIGHT = 40;
   const enemy_Start_Height = 40;
 
-
-  //Audio
-  
+  // Audio refs
   const audioJumpRef = useRef(null);
   const audioLoseRef = useRef(null);
 
@@ -43,15 +42,13 @@ const Gamelogic = () => {
       audioLoseRef.current = new Audio("/static/lose.wav");
       audioLoseRef.current.preload = "auto";
     }
-  }, []); // Empty dependency array to run once on mount
+  }, []);
 
   const { volume } = useVolumeContext();
-  // ... other context and state definitions
-
   const playAudioJump = () => {
     if (audioJumpRef.current) {
       audioJumpRef.current.volume = volume / 100;
-      audioJumpRef.current.currentTime = 0; // Reset if needed
+      audioJumpRef.current.currentTime = 0;
       audioJumpRef.current.play();
     }
   };
@@ -64,8 +61,6 @@ const Gamelogic = () => {
     }
   };
 
-
-
   const JUMP_HEIGHT = 500;
   const JUMP_SPEED = level === 1 ? 8 : level === 2 ? 9 : 11;
   const initialEnemySpeed = level === 1 ? 5 : level === 2 ? 7 : 10;
@@ -74,11 +69,11 @@ const Gamelogic = () => {
     level === 1
       ? "cactus"
       : level === 2
-      ? "camel"
-      : level === 3
-      ? "sabertooth_tiger"
-      : "error";
-  const scoreMultiplier = level === 1 ? 1 : level === 2 ? 2 : 3; // Higher score based on level
+        ? "camel"
+        : level === 3
+          ? "sabertooth_tiger"
+          : "error";
+  const scoreMultiplier = level === 1 ? 1 : level === 2 ? 2 : 3;
 
   // States
   const [enemyPosition, setEnemyPosition] = useState(window.innerWidth);
@@ -87,7 +82,8 @@ const Gamelogic = () => {
   const [isGameOver, setIsGameOver] = useState(false);
   const [highScore, setHighScore] = useState(0);
   const [playerName, setPlayerName] = useState("");
-  // Removed local isPlaying state – it now comes from MusicContext
+  // New state for the indicator
+  const [showIndicator, setShowIndicator] = useState(false);
 
   const dinoAngle = useDinoRotation();
   const scoreIntervalRef = useRef(null);
@@ -96,10 +92,9 @@ const Gamelogic = () => {
 
   const startGame = () => {
     clearInterval(scoreIntervalRef.current);
-
     setIsGameOver(false);
     setIsRunning(false);
-    setIsPlaying(true); // Set music playing via context
+    setIsPlaying(true);
     setEnemyPosition(window.innerWidth);
     setDinoPosition(DINO_START_HEIGHT);
     setScore(0);
@@ -107,7 +102,6 @@ const Gamelogic = () => {
     setPlayerName("");
     setenemySpeed(initialEnemySpeed);
 
-    // ✅ Cancel any existing enemy movement frames before restarting
     if (enemyAnimationFrameRef.current) {
       cancelAnimationFrame(enemyAnimationFrameRef.current);
     }
@@ -121,10 +115,9 @@ const Gamelogic = () => {
   };
 
   const navigate = useNavigate();
-
   const handleGoToMenu = () => {
     navigate("/");
-    window.location.reload(); // Force reload everything
+    window.location.reload();
   };
 
   // Optimized enemy movement effect using time-based delta calculation.
@@ -138,12 +131,29 @@ const Gamelogic = () => {
 
       const deltaTime = currentTime - lastTime;
       lastTime = currentTime;
-      // Calculate movement distance proportionate to elapsed time.
       const distance = enemySpeed * (deltaTime / TARGET_FRAME_TIME);
       let newPos = enemyPositionRef.current - distance;
+
+      // When enemy moves off-screen:
       if (newPos <= -enemyWidth * 2) {
-        newPos = window.innerWidth;
+        // Only show the indicator if we're in mobile mode.
+        if (isMobile) {
+          setShowIndicator(true);
+          cancelAnimationFrame(enemyAnimationFrameRef.current);
+          setTimeout(() => {
+            setShowIndicator(false);
+            enemyPositionRef.current = window.innerWidth;
+            setEnemyPosition(window.innerWidth);
+            lastTime = performance.now();
+            enemyAnimationFrameRef.current = requestAnimationFrame(moveEnemy);
+          }, 1000);
+          return; // Exit this cycle so the animation restarts after the timeout.
+        } else {
+          // For desktop, reset immediately.
+          newPos = window.innerWidth;
+        }
       }
+
       enemyPositionRef.current = newPos;
       setEnemyPosition(newPos);
       enemyAnimationFrameRef.current = requestAnimationFrame(moveEnemy);
@@ -158,19 +168,17 @@ const Gamelogic = () => {
     };
   }, [isRunning, isGameOver, enemySpeed, enemyWidth]);
 
-  // Score update effect remains the same.
+  // Score update effect remains unchanged.
   useEffect(() => {
     if (!isRunning || isGameOver) return;
-
     clearInterval(scoreIntervalRef.current);
     scoreIntervalRef.current = setInterval(() => {
       setScore((prev) => prev + scoreMultiplier);
     }, 100);
-
     return () => clearInterval(scoreIntervalRef.current);
   }, [isRunning, isGameOver, scoreMultiplier]);
 
-  // Optimized jumping logic using requestAnimationFrame.
+  // Jumping logic effect
   useEffect(() => {
     const handleJump = (event) => {
       if (event.code === "Space" && !isJumping && isRunning) {
@@ -180,13 +188,11 @@ const Gamelogic = () => {
         const startPos = dinoPosition;
         const endPos = JUMP_HEIGHT;
         const jumpDistance = endPos - startPos;
-        const intervalMs = 20; // Original update interval
+        const intervalMs = 20;
         const steps = jumpDistance / JUMP_SPEED;
-        const T_up = steps * intervalMs; // Total time for upward jump
-
+        const T_up = steps * intervalMs;
         let startTime = null;
 
-        // Upward phase: smoothly move from startPos to endPos in T_up ms.
         const animateUp = (timestamp) => {
           if (!startTime) startTime = timestamp;
           const elapsed = timestamp - startTime;
@@ -196,7 +202,6 @@ const Gamelogic = () => {
             requestAnimationFrame(animateUp);
           } else {
             setDinoPosition(endPos);
-            // Start downward phase.
             let downStartTime = null;
             const animateDown = (timestampDown) => {
               if (!downStartTime) downStartTime = timestampDown;
@@ -224,14 +229,12 @@ const Gamelogic = () => {
     return () => document.removeEventListener("keydown", handleJump);
   }, [isJumping, isRunning, dinoPosition]);
 
-  // Collision Detection remains unchanged.
+  // Collision detection effect
   useEffect(() => {
     if (!isRunning || isGameOver) return;
     let animationFrameId;
-
     const checkCollision = () => {
       if (!isRunning || isGameOver) return;
-
       const dinoX = 100,
         dinoY = dinoPosition;
       const enemyX = enemyPositionRef.current;
@@ -249,15 +252,12 @@ const Gamelogic = () => {
         setHighScore((prev) => Math.max(prev, score));
         return;
       }
-
       animationFrameId = requestAnimationFrame(checkCollision);
     };
 
     animationFrameId = requestAnimationFrame(checkCollision);
 
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
+    return () => cancelAnimationFrame(animationFrameId);
   }, [isRunning, isGameOver, dinoPosition, score]);
 
   const handleSubmitScore = () => {
@@ -268,12 +268,14 @@ const Gamelogic = () => {
         })
         .catch((error) => {
           console.error("Error submitting high score:", error);
-          window.alert("There was an error submitting your score. Please try again.");
+          window.alert(
+            "There was an error submitting your score. Please try again."
+          );
         });
     }
   };
 
-  // ✅ Ensures first interaction enables music autoplay via MusicContext.
+  // Ensure first interaction enables music autoplay.
   useEffect(() => {
     const handleUserInteraction = () => {
       setIsPlaying(true);
@@ -320,10 +322,20 @@ const Gamelogic = () => {
             bottom: `${dinoPosition}px`,
             left: "100px",
             transform: `rotate(${dinoAngle}deg)`,
-            transition: "transform 1s ease-in-out"
+            transition: "transform 1s ease-in-out",
           }}
         ></div>
         <div className={enemyType} style={{ left: `${enemyPosition}px` }}></div>
+        {/* Conditionally render the indicator image */}
+        <div className="indicator-container" style={{ position: "relative", width: "100%", height: "100%" }}>
+          {isMobile && showIndicator && (
+            <img
+              className="Danger-Triangle"
+              src="/static/triangle.png"
+              alt="Danger Indicator"
+              />
+          )}
+        </div>
       </div>
     </div>
   );

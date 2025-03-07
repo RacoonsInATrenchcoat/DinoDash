@@ -1,6 +1,4 @@
-
-
-.high-score-container{
+.high-score-container {
   position: relative;
   background-image: url("/static/Elements/Wooden_Button_3.svg");
   background-size: 100% 100%;
@@ -8,16 +6,19 @@
   background-position: center;
 
   width: 100%;
-  min-height: 75vh; /* Ensures a minimum height */
-  height: auto; /* Allows it to grow with content */
-  padding: 20px; /* Adds spacing */
+  min-height: 75vh;
+  /* Ensures a minimum height */
+  height: auto;
+  /* Allows it to grow with content */
+  padding: 20px;
+  /* Adds spacing */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.Highscore-title{
+.Highscore-title {
   letter-spacing: 2px;
   color: antiquewhite;
   font-family: "Luckiest Guy", sans-serif;
@@ -25,7 +26,7 @@
   font-style: normal;
 }
 
-.ListedScores{
+.ListedScores {
   list-style-type: none;
 }
 
@@ -40,10 +41,10 @@
 .menu-container {
   position: relative;
   text-align: center;
-  color:antiquewhite;
+  color: antiquewhite;
 }
 
-.main-menu-container{
+.main-menu-container {
   position: relative;
   background-image: url("/static/Elements/Stone_Button.svg");
   background-size: contain;
@@ -85,10 +86,10 @@
   background-size: contain;
   background-repeat: no-repeat;
   z-index: 10;
-  bottom:0px;
+  bottom: 0px;
 }
 
-.camel{
+.camel {
   /*Pic details:
   width: 714px;
   height: 540px;*/
@@ -99,11 +100,11 @@
   background-size: contain;
   background-repeat: no-repeat;
   z-index: 10;
-  bottom:0px;
+  bottom: 0px;
 
 }
 
-.sabertooth_tiger{
+.sabertooth_tiger {
   /*Pic details:
   width: 318px;
   height: 204px;*/
@@ -114,10 +115,10 @@
   background-size: contain;
   background-repeat: no-repeat;
   z-index: 10;
-  bottom:0px;
+  bottom: 0px;
 }
 
-.error{
+.error {
   background-color: #cc0000;
   width: 100px;
   height: 100px;
@@ -136,14 +137,19 @@
 
 .score-container {
   display: flex;
-  justify-content: flex-end; /* Push score to the left as needed */
-  white-space: nowrap;        /* Prevents line breaks */
-  overflow: hidden;         /* Avoids unnecessary wrapping */
-  min-width: 200px;         /* Ensures enough space */
+  justify-content: flex-end;
+  /* Push score to the left as needed */
+  white-space: nowrap;
+  /* Prevents line breaks */
+  overflow: hidden;
+  /* Avoids unnecessary wrapping */
+  min-width: 200px;
+  /* Ensures enough space */
 }
 
 .game-score {
-  font-size: 1.5rem;        /* Adjusts the score size */
+  font-size: 1.5rem;
+  /* Adjusts the score size */
   padding: 5px 10px;
   text-align: right;
   margin-top: 10px;
@@ -154,16 +160,20 @@
 .volume-control {
   display: flex;
   align-items: center;
-  gap: 10px; /* Add spacing between label, slider, and image */
+  gap: 10px;
+  /* Add spacing between label, slider, and image */
 }
 
 .custom-slider {
   position: relative;
-  width: 150px; /* Match the image width */
+  width: 150px;
+  /* Match the image width */
 }
 
-.custom-slider input[type="range"] {  /* The silder itself */
-  -webkit-appearance: none;           /* Remove default styles */
+.custom-slider input[type="range"] {
+  /* The silder itself */
+  -webkit-appearance: none;
+  /* Remove default styles */
   appearance: none;
   width: 100%;
   height: 30px;
@@ -175,7 +185,8 @@
   cursor: pointer;
 }
 
-.custom-slider input[type="range"]::-webkit-slider-thumb {  /* The middle button itself */
+.custom-slider input[type="range"]::-webkit-slider-thumb {
+  /* The middle button itself */
   -webkit-appearance: none;
   appearance: none;
   width: 40px;
@@ -186,7 +197,8 @@
   cursor: pointer;
 }
 
-.custom-slider input[type="range"]::-moz-range-thumb {  /* The middle button itself (for firefox)*/
+.custom-slider input[type="range"]::-moz-range-thumb {
+  /* The middle button itself (for firefox)*/
   width: 40px;
   height: 40px;
   background: url("/static/Elements/Wooden_Button_2.svg") no-repeat center;
@@ -283,6 +295,20 @@
   background: #cc0000;
 }
 
+.indicator-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.Danger-Triangle {
+  position: fixed;
+  right: 1vw;
+  top: 50vh;
+  width: 10%;
+  height: 20%;
+}
+
 
 /* Global container to hold all background layers */
 .background-container {
@@ -292,116 +318,129 @@
   width: 100vw;
   height: 95vh;
   overflow: hidden;
-  /* Prevents scrollbars */
   pointer-events: none;
-  /* Prevents clicks on background */
 }
 
-/* Base styles for all layers */
+/* Base styles for each background layer */
 .background-layer {
   position: absolute;
   top: 0;
-  width: 200vw;
+  left: 0;
+  width: 100vw;
   height: 100%;
-  background-size: auto 100%;
   background-repeat: repeat-x;
+  background-size: cover; /* For layers 1-4; foreground uses 'contain' */
 }
 
-
-/*Static*/
+/* Example for Level 1 images */
 .Background-lvl1-sky-1 {
   z-index: 5;
   background-image: url("/static/lvl1/background_1.png");
 }
 
-/*Static*/
 .Background-lvl1-outline-2 {
   z-index: 6;
   background-image: url("/static/lvl1/background_2.png");
 }
 
-/*Very slowly moving, same as Background-decor-4*/
 .Background-lvl1-desert-3 {
   z-index: 7;
   background-image: url("/static/lvl1/background_3.png");
-  background-repeat: repeat-x;
+  background-size: cover;
 }
 
-/*Very slowly moving, same as Background-desert-3*/
 .Background-lvl1-decor-4 {
   z-index: 8;
   background-image: url("/static/lvl1/background_4.png");
-  background-repeat: repeat-x;
+  background-size: cover;
 }
 
-/*Medium speed*/
 .Background-lvl1-foreground-5 {
   z-index: 9;
   background-image: url("/static/lvl1/background_5.png");
   background-size: contain;
   background-position: bottom;
-  background-repeat: repeat-x;
 }
 
 
-/* Level 2 */
+.Background-lvl1-sky-1 {
+  z-index: 5;
+  background-image: url("/static/lvl1/background_1.png");
+}
+
+.Background-lvl1-outline-2 {
+  z-index: 6;
+  background-image: url("/static/lvl1/background_2.png");
+}
+
+.Background-lvl1-desert-3 {
+  z-index: 7;
+  background-image: url("/static/lvl1/background_3.png");
+  background-size: cover;
+}
+
+.Background-lvl1-decor-4 {
+  z-index: 8;
+  background-image: url("/static/lvl1/background_4.png");
+  background-size: cover;
+}
+
+.Background-lvl1-foreground-5 {
+  z-index: 9;
+  background-image: url("/static/lvl1/background_5.png");
+  background-size: contain;
+  background-position: bottom;
+}
+
+
 .Background-lvl2-sky-1 {
   z-index: 5;
   background-image: url("/static/lvl2/background_1.png");
 }
-
 .Background-lvl2-outline-2 {
   z-index: 6;
   background-image: url("/static/lvl2/background_2.png");
 }
-
 .Background-lvl2-desert-3 {
   z-index: 7;
   background-image: url("/static/lvl2/background_3.png");
-  background-repeat: repeat-x;
+  background-size: cover;
 }
-
 .Background-lvl2-decor-4 {
   z-index: 8;
   background-image: url("/static/lvl2/background_4.png");
-  background-repeat: repeat-x;
+  background-size: cover;
 }
-
 .Background-lvl2-foreground-5 {
   z-index: 9;
   background-image: url("/static/lvl2/background_5.png");
   background-size: contain;
   background-position: bottom;
-  background-repeat: repeat-x;
 }
 
-/* Level 3 */
 .Background-lvl3-sky-1 {
   z-index: 5;
   background-image: url("/static/lvl3/background_1.png");
+  background-size: cover;
 }
-
 .Background-lvl3-outline-2 {
   z-index: 6;
   background-image: url("/static/lvl3/background_2.png");
+  background-size: cover;
 }
-
 .Background-lvl3-desert-3 {
   z-index: 7;
   background-image: url("/static/lvl3/background_3.png");
-  background-repeat: repeat-x;
+  background-size: cover;
 }
-
 .Background-lvl3-decor-4 {
   z-index: 8;
   background-image: url("/static/lvl3/background_4.png");
-  background-repeat: repeat-x;
+  background-size: cover;
 }
-
 .Background-lvl3-foreground-5 {
   z-index: 9;
   background-image: url("/static/lvl3/background_5.png");
   background-size: contain;
   background-position: bottom;
-  background-repeat: repeat-x;
 }
