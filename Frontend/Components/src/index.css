@@ -50,6 +50,8 @@ body {
 
 
 .navbar .nav-link {
+  font-size: 1.5rem;
+  margin-right: 1vw;
   color: antiquewhite
 }
 
@@ -57,9 +59,30 @@ body {
   color: #ff6237;
 }
 
-.navBarDivider {
+.mobile-nav-link{
+  text-decoration: none;
+  color: antiquewhite;
+}
+
+.mobile-link-container{
+  background-image: url("/static/Elements/Wooden_Button_3.svg");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2vh;
+  text-wrap: wrap'
+}
+
+.mobile-navBarDivider {
   border: antiquewhite 1px solid;
   height: 100%;
+}
+
+.navBarDivider {
+ display: none;
 }
 
 .vine {
@@ -78,20 +101,59 @@ body {
   image-rendering: pixelated;
 }
 
+.mobile-vine {
+  position: absolute;
+  left: 0px;
+  top: 1vh;
+  z-index: 10;
+  width: 100vw;
+  height: 100%;
+  aspect-ratio: auto;
+
+  background-image: url("/static/Elements/Vine.svg");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: 0 0;
+  image-rendering: pixelated;
+}
+
 .layout-container {
   width: 100vw;
 }
 
 .navbar-left {
+  position: relative;
+  left: 1vw;
   width: 25vw;
+}
+
+.mobile-navbar-left {
+ position: relative;
+ top: 5vh;
+ left: 1vw;
 }
 
 .navbar-center {
   width: 50vw;
 }
 
+.mobile-navbar-center {
+  top: 0;
+  left: 50%;
+}
+
 .navbar-right {
   width: 25vw;
+}
+
+.mobile-navbar-right {
+  position: relative;
+  top: 5vh;
+  right: 1vw;
+  background-image: url("/static/Elements/Wooden_Button_3.svg");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .outlet{
