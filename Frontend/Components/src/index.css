@@ -66,14 +66,18 @@ body {
 
 .mobile-link-container{
   background-image: url("/static/Elements/Wooden_Button_3.svg");
-  background-size: 75%;
+  background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
 
   display: flex;
   justify-content: center;
   margin-bottom: 2vh;
-  text-wrap: wrap'
+  text-wrap: wrap;
+  position: relative;
+  z-index: 10;
+  height: 110%;
+  width: 110%;
 }
 
 .mobile-navBarDivider {
@@ -131,6 +135,7 @@ body {
  position: relative;
  top: 5vh;
  left: 1vw;
+ width: 25vh;
 }
 
 .navbar-center {
@@ -138,8 +143,12 @@ body {
 }
 
 .mobile-navbar-center {
+  position: relative;
+  display:flex;
+  justify-content: center;
+
   top: 0;
-  left: 50%;
+  width: 50vh;
 }
 
 .navbar-right {
@@ -148,12 +157,15 @@ body {
 
 .mobile-navbar-right {
   position: relative;
-  top: 5vh;
+  top: 1vh;
   right: 1vw;
-  background-image: url("/static/Elements/Wooden_Button_3.svg");
-  background-size: 75%;
-  background-repeat: no-repeat;
-  background-position: center;
+  width: 25vh;
+  height: 10vh;
+  max-width: 35vw;
+  max-height: 20vh;
+
+ display:flex;
+  justify-content: end;
 }
 
 .outlet{

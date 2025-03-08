@@ -84,6 +84,8 @@ const Gamelogic = () => {
   const [playerName, setPlayerName] = useState("");
   // New state for the indicator
   const [showIndicator, setShowIndicator] = useState(false);
+    //Mobile touch state
+  const [isTouched, setIsTouched] = useState(false);
 
   const dinoAngle = useDinoRotation();
   const scoreIntervalRef = useRef(null);
@@ -168,7 +170,7 @@ const Gamelogic = () => {
     };
   }, [isRunning, isGameOver, enemySpeed, enemyWidth]);
 
-  // Score update effect remains unchanged.
+  // Score update
   useEffect(() => {
     if (!isRunning || isGameOver) return;
     clearInterval(scoreIntervalRef.current);
@@ -178,55 +180,75 @@ const Gamelogic = () => {
     return () => clearInterval(scoreIntervalRef.current);
   }, [isRunning, isGameOver, scoreMultiplier]);
 
+ 
+
   // Jumping logic effect
-  useEffect(() => {
-    const handleJump = (event) => {
-      if (event.code === "Space" && !isJumping && isRunning) {
-        setIsJumping(true);
-        playAudioJump();
+  const triggerJump = () => {
+    setIsJumping(true);
+    playAudioJump();
 
-        const startPos = dinoPosition;
-        const endPos = JUMP_HEIGHT;
-        const jumpDistance = endPos - startPos;
-        const intervalMs = 20;
-        const steps = jumpDistance / JUMP_SPEED;
-        const T_up = steps * intervalMs;
-        let startTime = null;
+    const startPos = dinoPosition;
+    const endPos = JUMP_HEIGHT;
+    const jumpDistance = endPos - startPos;
+    const intervalMs = 20;
+    const steps = jumpDistance / JUMP_SPEED;
+    const T_up = steps * intervalMs;
+    let startTime = null;
 
-        const animateUp = (timestamp) => {
-          if (!startTime) startTime = timestamp;
-          const elapsed = timestamp - startTime;
-          if (elapsed < T_up) {
-            const newPos = startPos + jumpDistance * (elapsed / T_up);
+    const animateUp = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      if (elapsed < T_up) {
+        const newPos = startPos + jumpDistance * (elapsed / T_up);
+        setDinoPosition(newPos);
+        requestAnimationFrame(animateUp);
+      } else {
+        setDinoPosition(endPos);
+        let downStartTime = null;
+        const animateDown = (timestampDown) => {
+          if (!downStartTime) downStartTime = timestampDown;
+          const elapsedDown = timestampDown - downStartTime;
+          if (elapsedDown < T_up) {
+            const newPos = endPos - jumpDistance * (elapsedDown / T_up);
             setDinoPosition(newPos);
-            requestAnimationFrame(animateUp);
-          } else {
-            setDinoPosition(endPos);
-            let downStartTime = null;
-            const animateDown = (timestampDown) => {
-              if (!downStartTime) downStartTime = timestampDown;
-              const elapsedDown = timestampDown - downStartTime;
-              if (elapsedDown < T_up) {
-                const newPos = endPos - jumpDistance * (elapsedDown / T_up);
-                setDinoPosition(newPos);
-                requestAnimationFrame(animateDown);
-              } else {
-                setDinoPosition(DINO_START_HEIGHT);
-                setIsJumping(false);
-              }
-            };
             requestAnimationFrame(animateDown);
+          } else {
+            setDinoPosition(DINO_START_HEIGHT);
+            setIsJumping(false);
           }
         };
+        requestAnimationFrame(animateDown);
+      }
+    };
 
-        requestAnimationFrame(animateUp);
+    requestAnimationFrame(animateUp);
+  };
+
+  // Keyboard Jump Listener
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.code === "Space" && !isJumping && isRunning) {
+        triggerJump();
       }
     };
 
     if (isRunning) {
-      document.addEventListener("keydown", handleJump);
+      document.addEventListener("keydown", handleKeyDown);
     }
-    return () => document.removeEventListener("keydown", handleJump);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isJumping, isRunning, dinoPosition]);
+
+  // Mobile Touch Jump Listener
+  useEffect(() => {
+    const handleTouchStart = (event) => {
+      if (event.touches.length === 1 && !isJumping && isRunning) {
+        // Instead of setting a flag and waiting, we trigger jump immediately:
+        triggerJump();
+      }
+    };
+
+    document.addEventListener("touchstart", handleTouchStart);
+    return () => document.removeEventListener("touchstart", handleTouchStart);
   }, [isJumping, isRunning, dinoPosition]);
 
   // Collision detection effect
@@ -315,7 +337,7 @@ const Gamelogic = () => {
       )}
 
       {/* Gameplay elements */}
-      <div className="game-entities">
+      <div className={isMobile == true ? 'mobile-game-entities' : `game-entities`}>
         <div
           className="dino"
           style={{

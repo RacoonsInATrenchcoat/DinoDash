@@ -17,7 +17,7 @@ const Navbar = () => {
       <nav className="navbar navbar-expand-lg d-flex justify-content-between">
         {/* Left Section */}
         <div className={isMobile == true ? 'mobile-navbar-left' : 'navbar-left d-flex align-items-center justify-content-start'}>
-          <div className="mobile-link-container">
+          <div className={isMobile == true ? "mobile-link-container" : "link-container"}>
             <Link
               className={isMobile == true ? 'mobile-nav-link' : `nav-link`}
               aria-current="page"
@@ -25,8 +25,8 @@ const Navbar = () => {
               onClick={() => window.location.href = "/"} >Home</Link>
           </div>
           <div className="navBarDivider"></div>
-          <div className="mobile-link-container">
-            <Link className={isMobile == true ? 'mobile-nav-link' : `nav-link`} to="/highscorespage">High Scores</Link>
+          <div className={isMobile == true ? "mobile-link-container" : "link-container"}>
+            <Link className={isMobile == true ? 'mobile-nav-link' : `nav-link`} to="/highscorespage"> {isMobile == true ? 'Scores' : `High Scores`}</Link>
           </div>
         </div>
 
@@ -38,7 +38,7 @@ const Navbar = () => {
         {/* Right Section */}
         <div className={isMobile == true ? 'mobile-navbar-right' : 'navbar-right d-flex align-items-center justify-content-end'}>
           <div className={isMobile == true ? "mobile-score-container" : "score-container d-flex align-items-center"}>
-            <p className="game-score">Score: {score}</p>
+            <p className= {isMobile == true ? "mobile-game-score":"game-score"}>Score: {score}</p>
           </div>
           <div className={isMobile == true ? 'mobile-volume-control' : 'volume-control d-flex'}>
             <label htmlFor="volume align-items-center">Volume:</label>

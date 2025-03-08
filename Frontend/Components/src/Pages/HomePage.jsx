@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Gamelogic from "../Gamelogic";
 import MusicPlayer from "../MusicPlayer"; // Now rendered here
 import { useScoreContext, useLevelContext } from "../Context";
+import { useMobileContext } from "../MobileMode";
 import "../Gamelogic.css";
 
 const Homepage = () => {
@@ -9,6 +10,7 @@ const Homepage = () => {
   const [isRunning, setIsRunning] = useState(true);
   const { setScore } = useScoreContext();
   const { level, nextLevel } = useLevelContext();
+  const isMobile = useMobileContext();
 
   const startGame = () => {
     setGameStarted(true);
@@ -51,21 +53,21 @@ const Homepage = () => {
               onClick={startGame}
             >
               <img src="/static/Elements/Wooden_Button_1.svg" alt="Wooden Button" />
-              <div className="text-Centered-In-Image">Start</div>
+              <div className= {isMobile == true ? "mobile-text-Centered-In-Image" : "text-Centered-In-Image"}>Start</div>
             </div>
             <div className="d-flex flex-column align-items-center justify-content-center">
-              <br />
-              <br />
-              <p className="me-3 mb-0">Select level:</p>
+              <br className={isMobile == true ? "mobile-space" : ""} />
+              <br className={isMobile == true ? "mobile-space" : ""} />
+              <p className={isMobile == true ? "mobile-menu-text" : "me-3 mb-0"}>Select level:</p>
               <button className="btn btn-secondary" onClick={nextLevel}>
                 Level {level}
               </button>
-              <br />
-              <br />
-              <p>Different levels have different areas.</p>
-              <p>Speed is increased, but so is the score!.</p>
-              <div className="mt-5">
-                <p>Use SPACE to jump.</p>
+              <br className={isMobile == true ? "mobile-space" : ""} />
+              <br className={isMobile == true ? "mobile-space" : ""} />
+              <p className={isMobile == true ? "mobile-menu-text" : ""}>Different levels have different areas.</p>
+              <p className={isMobile == true ? "mobile-menu-text" : ""}>Speed is increased, but so is the score!</p>
+              <div  className= {isMobile == true ? "" : "mt-5"}>
+                <p className = {isMobile == true ? "mobile-menu-text" : ""}>Use SPACE to jump.</p>
               </div>
             </div>
           </div>
