@@ -3,7 +3,7 @@ body {
   width: 100vw;
 }
 
-#root {
+.root {
   background-image: url("/static/Elements/Stone_Background.svg");
   background-repeat: repeat;
   background-size: 30%;
