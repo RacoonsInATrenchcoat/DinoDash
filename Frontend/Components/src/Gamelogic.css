@@ -180,6 +180,8 @@
   font-size: 1.5rem;
   padding: 2vw;
   text-align: right;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .mobile-game-score {

@@ -26,11 +26,26 @@ export const MobileProvider = ({ children }) => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  return (
-    <MobileContext.Provider value={isMobile}>
-      {children}
-    </MobileContext.Provider>
-  );
+  //isMobile value to dynamically switch CSS.
+  useEffect(() => {
+
+    const rootElement = document.getElementById("root");
+    if (rootElement) {
+      if (isMobile) {
+        rootElement.classList.add("mobile-root");
+        rootElement.classList.remove("desktop-root"); // Remove old class
+      } else {
+        rootElement.classList.add("desktop-root");
+        rootElement.classList.remove("mobile-root");
+      }
+    }
+  }, [isMobile]);
+
+return (
+  <MobileContext.Provider value={isMobile}>
+    {children}
+  </MobileContext.Provider>
+);
 };
 
 // Specifically export a hook to access the MobileContext

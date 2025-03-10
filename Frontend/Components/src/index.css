@@ -1,4 +1,4 @@
-body {
+#root {
   background-image: url("/static/Elements/Stone_Background.svg");
   background-repeat: repeat;
   background-size: 30%;
@@ -16,6 +16,24 @@ body {
   overflow: hidden;
 }
 
+.mobile-root {
+  background-image: url("/static/Elements/Stone_Background.svg");
+  background-repeat: repeat;
+  background-size: 30%;
+  background-position: center;
+
+  font-family: "Fredoka", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+
+  font-size: 120%;
+  color: antiquewhite;
+  overflow:scroll;
+}
+
 
 .displayfont-text{
   font-family: "Luckiest Guy", sans-serif;
@@ -24,7 +42,8 @@ body {
   color: antiquewhite;
   font-size: 150%;
   text-decoration: none; /*Removing the underline from link*/
-  margin-top: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 
