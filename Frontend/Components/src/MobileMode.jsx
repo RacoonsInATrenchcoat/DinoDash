@@ -33,9 +33,9 @@ export const MobileProvider = ({ children }) => {
     if (rootElement) {
       if (isMobile) {
         rootElement.classList.add("mobile-root");
-        rootElement.classList.remove("desktop-root"); // Remove old class
+        rootElement.classList.remove("root"); // Remove old class
       } else {
-        rootElement.classList.add("desktop-root");
+        rootElement.classList.add("root");
         rootElement.classList.remove("mobile-root");
       }
     }
