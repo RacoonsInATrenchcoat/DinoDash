@@ -392,7 +392,8 @@
   /* For layers 1-4; foreground uses 'contain' */
 }
 
-/* Example for Level 1 images */
+
+/*Backgrounds */
 .Background-lvl1-sky-1 {
   z-index: 5;
   background-image: url("/static/lvl1/background_1.png");
@@ -418,37 +419,7 @@
 .Background-lvl1-foreground-5 {
   z-index: 9;
   background-image: url("/static/lvl1/background_5.png");
-  background-size: contain;
-  background-position: bottom;
-}
-
-
-.Background-lvl1-sky-1 {
-  z-index: 5;
-  background-image: url("/static/lvl1/background_1.png");
-}
-
-.Background-lvl1-outline-2 {
-  z-index: 6;
-  background-image: url("/static/lvl1/background_2.png");
-}
-
-.Background-lvl1-desert-3 {
-  z-index: 7;
-  background-image: url("/static/lvl1/background_3.png");
-  background-size: cover;
-}
-
-.Background-lvl1-decor-4 {
-  z-index: 8;
-  background-image: url("/static/lvl1/background_4.png");
-  background-size: cover;
-}
-
-.Background-lvl1-foreground-5 {
-  z-index: 9;
-  background-image: url("/static/lvl1/background_5.png");
-  background-size: contain;
+  background-size: 100% 100%;
   background-position: bottom;
 }
 
@@ -478,7 +449,7 @@
 .Background-lvl2-foreground-5 {
   z-index: 9;
   background-image: url("/static/lvl2/background_5.png");
-  background-size: contain;
+  background-size: 100% 100%;
   background-position: bottom;
 }
 
@@ -509,6 +480,6 @@
 .Background-lvl3-foreground-5 {
   z-index: 9;
   background-image: url("/static/lvl3/background_5.png");
-  background-size: contain;
+  background-size: 100% 100%;
   background-position: bottom;
 }
