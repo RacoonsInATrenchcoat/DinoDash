@@ -7,6 +7,7 @@ const Preloader = () => {
       "/static/cactus_1.svg",
       "/static/camel.svg",
       "/static/sabertooth_tiger.svg",
+      "/static/triangle.png",
 
       "/static/lvl1/background_1.png",
       "/static/lvl1/background_2.png",
