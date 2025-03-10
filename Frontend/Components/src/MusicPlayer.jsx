@@ -41,6 +41,7 @@ const MusicPlayer = React.memo(() => {
     } else {
       const audio = new Audio();
       audio.preload = "auto";
+      audio.loop = true;  // Ensure looping is enabled
       audioRef.current = audio;
       globalAudioInstance = audio;
     }
@@ -106,7 +107,7 @@ const MusicPlayer = React.memo(() => {
     updateAudio();
   }, [updateAudio, level, isPlaying]);
 
-  return <audio ref={audioRef} preload="auto" loop />;
+  return <audio ref={audioRef} preload="auto" />;
 });
 
 export default MusicPlayer;

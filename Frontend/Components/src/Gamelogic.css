@@ -18,6 +18,26 @@
   justify-content: center;
 }
 
+.mobile-high-score-container {
+  position: relative;
+  background-image: url("/static/Elements/Wooden_Button_3.svg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  width: 100%;
+  min-height: 75vh;
+  /* Ensures a minimum height */
+  height: auto;
+  /* Allows it to grow with content */
+  padding: 20px;
+  /* Adds spacing */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10vh;
+}
+
 .Highscore-title {
   letter-spacing: 2px;
   color: antiquewhite;
@@ -28,6 +48,11 @@
 
 .ListedScores {
   list-style-type: none;
+}
+
+.mobile-ListedScores{
+  list-style-type: none;
+  font-size: 1rem;
 }
 
 .game-container {
@@ -57,6 +82,9 @@
   height: 75vh;
 }
 
+.btn-secondary {
+  --bs-btn-bg: #404244 !important;
+}
 
 .dino,
 .cactus {
@@ -167,7 +195,7 @@
   overflow: hidden;
   z-index: 10;
 
-  height:100%;
+  height: 100%;
   width: 100%;
   background-image: url("/static/Elements/Wooden_Button_3.svg");
   background-size: 100%;

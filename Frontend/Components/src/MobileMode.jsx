@@ -41,11 +41,18 @@ export const MobileProvider = ({ children }) => {
     }
   }, [isMobile]);
 
-return (
-  <MobileContext.Provider value={isMobile}>
-    {children}
-  </MobileContext.Provider>
-);
+    // Trigger alert when orientation is portrait
+    useEffect(() => {
+      if (window.matchMedia("(orientation: portrait)").matches) {
+        alert("Please rotate your device to landscape mode.");
+      }
+    }, []); //Only on load for now
+
+  return (
+    <MobileContext.Provider value={isMobile}>
+      {children}
+    </MobileContext.Provider>
+  );
 };
 
 // Specifically export a hook to access the MobileContext

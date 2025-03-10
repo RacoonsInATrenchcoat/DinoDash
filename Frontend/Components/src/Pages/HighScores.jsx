@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getHighScoresPaginated } from "../CRUD";
+import { useMobileContext } from "../MobileMode";
 
 const HighScoresPage = () => {
   const [scores, setScores] = useState([]); // Stores paginated scores
@@ -8,6 +9,7 @@ const HighScoresPage = () => {
   const [loading, setLoading] = useState(false);
   const scoresPerPage = 10; // Limit to 10 items per page
   const [page, setPage] = useState(1); // Track current page number
+  const isMobile = useMobileContext();
 
   useEffect(() => {
     fetchScores();
@@ -35,14 +37,14 @@ const HighScoresPage = () => {
   };
 
   return (
-    <div className="high-score-container d-flex justify-content-center">
-      <div className="Highscore-title d-flex justify-content-center">
+    <div className= {isMobile == true ? "mobile-high-score-container d-flex" : "high-score-container d-flex justify-content-center"}>
+      <div className= "Highscore-title d-flex justify-content-center">
         <h2>High Scores</h2>
       </div>
 
       {loading && <p>Loading...</p>}
 
-      <ul className="ListedScores d-flex flex-column justify-content-center">
+      <ul className= {isMobile == true ? "mobile-ListedScores" : "ListedScores d-flex flex-column justify-content-center"}>
         {scores.length > 0 ? (
           scores.map((entry, index) => (
             <li key={entry.id}>
