@@ -49,7 +49,7 @@ const Homepage = () => {
         <div className="orientation-overlay">
           <img className="portait-dino-warning" src="/static/lizardwizard_150x150.png"></img>
           <p>The dino says:</p>
-          <p>"Please rotate your device to landscape mode for a better experience."</p>
+          <p>"For a better experience in this game, please rotate your device to landscape mode."</p>
         </div>
       )}
       {/* MusicPlayer is now rendered at the top without receiving isPlaying as a prop */}
