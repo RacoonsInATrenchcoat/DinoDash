@@ -7,9 +7,9 @@ const HighScoresPage = () => {
   const [lastScore, setLastScore] = useState(null); // Track last score for pagination
   const [hasMore, setHasMore] = useState(true); // Detect if there's a next page
   const [loading, setLoading] = useState(false);
-  const scoresPerPage = 10; // Limit to 10 items per page
   const [page, setPage] = useState(1); // Track current page number
   const isMobile = useMobileContext();
+  const scoresPerPage = isMobile ? 5 : 10; // Limit to 10 items per page
 
   useEffect(() => {
     fetchScores();

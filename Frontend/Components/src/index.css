@@ -210,3 +210,26 @@ br {
   margin-bottom: 10px;
   /* Adjusts spacing between lines */
 }
+
+.orientation-overlay {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 1);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  text-align: center;
+  z-index: 9999; /* Ensure it's the topmost layer */
+  pointer-events: none; /* Prevent blocking interactions underneath */
+}
+
+.portait-dino-warning{
+  width: 50%;
+}

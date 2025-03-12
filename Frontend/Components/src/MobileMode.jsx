@@ -41,13 +41,6 @@ export const MobileProvider = ({ children }) => {
     }
   }, [isMobile]);
 
-    // Trigger alert when orientation is portrait
-    useEffect(() => {
-      if (window.matchMedia("(orientation: portrait)").matches) {
-        alert("Please rotate your device to landscape mode.");
-      }
-    }, []); //Only on load for now
-
   return (
     <MobileContext.Provider value={isMobile}>
       {children}
