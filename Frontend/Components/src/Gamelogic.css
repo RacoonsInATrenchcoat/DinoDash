@@ -83,6 +83,11 @@
 }
 
 .btn-secondary {
+  width:100%;
+  height: 100%;
+  font-size: 125% !important;
+  margin-left: 1vw;
+  margin-right: 1vw;
   --bs-btn-bg: #404244 !important;
 }
 
@@ -395,6 +400,43 @@
   width: 10%;
   height: 20%;
 }
+.level-scontainer{
+  height:50%;
+  width:50%;
+}
+
+.arrowLeft{
+  display: block;
+  width: 100%;
+  height: 150%;
+  background: url("/static/Elements/Wooden_button_left.svg") no-repeat center;
+  background-size: contain;
+}
+
+.mobile-arrowLeft{
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url("/static/Elements/Wooden_button_left.svg") no-repeat center;
+  background-size: contain;
+}
+
+
+.arrowRight{
+  display: block;
+  width: 100%;
+  height: 150%;
+  background: url("/static/Elements/Wooden_button_right.svg") no-repeat center;
+  background-size: contain;
+}
+
+.mobile-arrowRight{
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url("/static/Elements/Wooden_button_right.svg") no-repeat center;
+  background-size: contain;
+}
 
 
 /* Global container to hold all background layers */
@@ -419,7 +461,6 @@
   background-size: cover;
   /* For layers 1-4; foreground uses 'contain' */
 }
-
 
 /*Backgrounds */
 .Background-lvl1-sky-1 {

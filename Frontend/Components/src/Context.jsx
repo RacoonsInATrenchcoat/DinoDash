@@ -38,8 +38,11 @@ export const LevelProvider = ({ children }) => {
   const nextLevel = () => {
     setLevel((prevLevel) => (prevLevel % 3) + 1);
   };
+  const prevLevel = () => {
+    setLevel((prevLevel) => (prevLevel === 1 ? 3 : prevLevel - 1));
+  };
   return (
-    <LevelContext.Provider value={{ level, nextLevel }}>
+    <LevelContext.Provider value={{ level, prevLevel,nextLevel }}>
       {children}
     </LevelContext.Provider>
   );

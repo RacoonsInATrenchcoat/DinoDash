@@ -9,7 +9,7 @@ const Homepage = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [isRunning, setIsRunning] = useState(true);
   const { setScore } = useScoreContext();
-  const { level, nextLevel } = useLevelContext();
+  const { level, prevLevel, nextLevel } = useLevelContext();
   const isMobile = useMobileContext();
   // Overlay state for orientation detection
   const [showOverlay, setShowOverlay] = useState(false);
@@ -19,14 +19,14 @@ const Homepage = () => {
       const isPortrait = window.innerHeight > window.innerWidth;
       setShowOverlay(isPortrait); // Show overlay in portrait, hide in landscape
     };
-  
+
     checkOrientation(); // Run immediately on load
-  
+
     window.addEventListener("resize", checkOrientation); // More reliable than 'orientationchange'?
-  
+
     return () => window.removeEventListener("resize", checkOrientation);
   }, []);
-  
+
 
   const startGame = () => {
     setGameStarted(true);
@@ -82,10 +82,14 @@ const Homepage = () => {
             <div className="d-flex flex-column align-items-center justify-content-center">
               <br className={isMobile == true ? "mobile-space" : ""} />
               <br className={isMobile == true ? "mobile-space" : ""} />
-              <p className={isMobile == true ? "mobile-menu-text" : "me-3 mb-0"}>Select level:</p>
-              <button className="btn btn-secondary" onClick={nextLevel}>
-                Level {level}
-              </button>
+              <p className={isMobile == true ? "mobile-menu-text" : ""}>Select level:</p>
+              <div className = "level-scontainer d-flex flex-row align-items-center justify-content-center">
+                <image className = {isMobile == true ? "mobile-arrowLeft" : "arrowLeft"} onClick={prevLevel}></image>
+                <button className="btn btn-secondary" >
+                  {level}
+                </button>
+                <image className = {isMobile == true ? "mobile-arrowRight" : "arrowRight"} onClick={nextLevel}></image>
+              </div>
               <br className={isMobile == true ? "mobile-space" : ""} />
               <br className={isMobile == true ? "mobile-space" : ""} />
               <p className={isMobile == true ? "mobile-menu-text" : ""}>Different levels have different areas.</p>
