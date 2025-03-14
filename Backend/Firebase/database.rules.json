@@ -1,6 +1,9 @@
 {
   "rules": {
-    ".read": true,
-    ".write": true
+    "highscores": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["score"]
+    }
   }
 }

@@ -1,9 +1,94 @@
+.high-score-container {
+  position: relative;
+  background-image: url("/static/Elements/Wooden_Button_3.svg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  width: 100%;
+  min-height: 75vh;
+  /* Ensures a minimum height */
+  height: auto;
+  /* Allows it to grow with content */
+  padding: 20px;
+  /* Adds spacing */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-high-score-container {
+  position: relative;
+  background-image: url("/static/Elements/Wooden_Button_3.svg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  width: 100%;
+  min-height: 75vh;
+  /* Ensures a minimum height */
+  height: auto;
+  /* Allows it to grow with content */
+  padding: 20px;
+  /* Adds spacing */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10vh;
+}
+
+.Highscore-title {
+  letter-spacing: 2px;
+  color: antiquewhite;
+  font-family: "Luckiest Guy", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.ListedScores {
+  list-style-type: none;
+}
+
+.mobile-ListedScores{
+  list-style-type: none;
+  font-size: 1rem;
+}
+
 .game-container {
   position: relative;
-  width: 100%;
-  height: calc(100vh - 56px);
+  width: 100vw;
+  height: 95vh;
   overflow: hidden;
   background-color: lightblue;
+}
+
+.menu-container {
+  position: relative;
+  text-align: center;
+  color: antiquewhite;
+}
+
+.main-menu-container {
+  position: relative;
+  background-image: url("/static/Elements/Stone_Button.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-size: 110%;
+  overflow-wrap: normal;
+
+  width: 100%;
+  height: 75vh;
+}
+
+.btn-secondary {
+  width:100%;
+  height: 100%;
+  font-size: 125% !important;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  --bs-btn-bg: #404244 !important;
 }
 
 .dino,
@@ -24,19 +109,205 @@
 }
 
 .cactus {
+  /*Pic details:
+  width: 693px;
+  height: 1068px;*/
   position: absolute;
-  width: 150px;
-  height: 170px;
-  background-image: url("/static/cactus_1.png");
+  width: 100px;
+  height: 200px;
+  background-image: url("/static/cactus.svg");
   background-size: contain;
   background-repeat: no-repeat;
   z-index: 10;
+  bottom: 0px;
+}
+
+.camel {
+  /*Pic details:
+  width: 714px;
+  height: 540px;*/
+  position: absolute;
+  width: 250px;
+  height: 200px;
+  background-image: url("/static/camel.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 10;
+  bottom: 0px;
+
+}
+
+.sabertooth_tiger {
+  /*Pic details:
+  width: 318px;
+  height: 204px;*/
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  background-image: url("/static/sabertooth_tiger.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 10;
+  bottom: 0px;
+}
+
+.error {
+  background-color: #cc0000;
+  width: 100px;
+  height: 100px;
+}
+
+.text-Centered-In-Image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 150%;
+  font-family: "Luckiest Guy", cursive;
+  font-weight: 400;
+  font-style: normal;
+  cursor: pointer;
+}
+
+.mobile-text-Centered-In-Image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 100%;
+  font-family: "Luckiest Guy", cursive;
+  font-weight: 400;
+  font-style: normal;
+  cursor: pointer;
+}
+
+.score-container {
+  display: flex;
+  justify-content: flex-end;
+  /* Push score to the left as needed */
+  white-space: nowrap;
+  /* Prevents line breaks */
+  overflow: hidden;
+  /* Avoids unnecessary wrapping */
+  min-width: 200px;
+  /* Ensures enough space */
+}
+
+.mobile-score-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 10;
+  width: 150px;
+
+  background-image: url("/static/Elements/Wooden_Button_3.svg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 10;
+}
+
+.game-score {
+  font-size: 1.5rem;
+  padding: 2vw;
+  text-align: right;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.mobile-game-score {
+  font-size: 1rem;
+  padding: 2vw;
+  text-align: right;
+  margin: 20px;
+}
+
+/*Navbar Volume slider*/
+
+.volume-control {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  gap: 10px;
+  /* Add spacing between label, slider, and image */
+}
+
+.mobile-volume-control {
+  display: none;
+}
+
+.mobile-menu-text {
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.mobile-space {
+  display: none;
+}
+
+.custom-slider {
+  position: relative;
+  width: 150px;
+  /* Match the image width */
+}
+
+.custom-slider input[type="range"] {
+  /* The silder itself */
+  -webkit-appearance: none;
+  /* Remove default styles */
+  appearance: none;
+  width: 100%;
+  height: 30px;
+  background: url("/static/Elements/Wooden_Volume.svg") no-repeat center;
+  background-size: contain;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.custom-slider input[type="range"]::-webkit-slider-thumb {
+  /* The middle button itself */
+  -webkit-appearance: none;
+  appearance: none;
+  width: 40px;
+  height: 40px;
+  background: url("/static/Elements/Wooden_Button_2.svg") no-repeat center;
+  background-size: contain;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.custom-slider input[type="range"]::-moz-range-thumb {
+  /* The middle button itself (for firefox)*/
+  width: 40px;
+  height: 40px;
+  background: url("/static/Elements/Wooden_Button_2.svg") no-repeat center;
+  background-size: contain;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.volume-icon {
+  width: 30px;
+  height: auto;
 }
 
 /*Extra assurance to show*/
 .game-entities {
   position: absolute;
   bottom: 60px;
+  width: 100%;
+  height: auto;
+  z-index: 10;
+}
+
+.mobile-game-entities {
+  position: absolute;
+  bottom: 0px;
   width: 100%;
   height: auto;
   z-index: 10;
@@ -116,6 +387,57 @@
   background: #cc0000;
 }
 
+.indicator-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.Danger-Triangle {
+  position: fixed;
+  right: 1vw;
+  top: 50vh;
+  width: 10%;
+  height: 20%;
+}
+.level-scontainer{
+  height:50%;
+  width:50%;
+}
+
+.arrowLeft{
+  display: block;
+  width: 100%;
+  height: 150%;
+  background: url("/static/Elements/Wooden_button_left.svg") no-repeat center;
+  background-size: contain;
+}
+
+.mobile-arrowLeft{
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url("/static/Elements/Wooden_button_left.svg") no-repeat center;
+  background-size: contain;
+}
+
+
+.arrowRight{
+  display: block;
+  width: 100%;
+  height: 150%;
+  background: url("/static/Elements/Wooden_button_right.svg") no-repeat center;
+  background-size: contain;
+}
+
+.mobile-arrowRight{
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url("/static/Elements/Wooden_button_right.svg") no-repeat center;
+  background-size: contain;
+}
+
 
 /* Global container to hold all background layers */
 .background-container {
@@ -123,55 +445,110 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: calc(100vh - 56px);
+  height: 95vh;
   overflow: hidden;
-  /* Prevents scrollbars */
   pointer-events: none;
-  /* Prevents clicks on background */
 }
 
-/* Base styles for all layers */
+/* Base styles for each background layer */
 .background-layer {
   position: absolute;
   top: 0;
-  width: 200vw;
+  left: 0;
+  width: 100vw;
   height: 100%;
-  background-size: auto 100%;
   background-repeat: repeat-x;
+  background-size: cover;
+  /* For layers 1-4; foreground uses 'contain' */
 }
 
-
-/*Static*/
-.Background-sky-1 {
+/*Backgrounds */
+.Background-lvl1-sky-1 {
   z-index: 5;
-  background-image: url("/static/background_1.png");
+  background-image: url("/static/lvl1/background_1.png");
 }
 
-/*Static*/
-.Background-outline-2 {
+.Background-lvl1-outline-2 {
   z-index: 6;
-  background-image: url("/static/background_2.png");
+  background-image: url("/static/lvl1/background_2.png");
 }
 
-/*Very slowly moving, same as Background-decor-4*/
-.Background-desert-3 {
+.Background-lvl1-desert-3 {
   z-index: 7;
-  background-image: url("/static/background_3.png");
-  background-repeat: repeat-x;
+  background-image: url("/static/lvl1/background_3.png");
+  background-size: cover;
 }
 
-/*Very slowly moving, same as Background-desert-3*/
-.Background-decor-4 {
+.Background-lvl1-decor-4 {
   z-index: 8;
-  background-image: url("/static/background_4.png");
-  background-repeat: repeat-x;
+  background-image: url("/static/lvl1/background_4.png");
+  background-size: cover;
 }
 
-/*Medium speed*/
-.Background-foreground-5 {
+.Background-lvl1-foreground-5 {
   z-index: 9;
-  background-image: url("/static/background_5.png");
-  background-size: contain;
+  background-image: url("/static/lvl1/background_5.png");
+  background-size: 100% 100%;
   background-position: bottom;
-  background-repeat: repeat-x;
+}
+
+
+.Background-lvl2-sky-1 {
+  z-index: 5;
+  background-image: url("/static/lvl2/background_1.png");
+}
+
+.Background-lvl2-outline-2 {
+  z-index: 6;
+  background-image: url("/static/lvl2/background_2.png");
+}
+
+.Background-lvl2-desert-3 {
+  z-index: 7;
+  background-image: url("/static/lvl2/background_3.png");
+  background-size: cover;
+}
+
+.Background-lvl2-decor-4 {
+  z-index: 8;
+  background-image: url("/static/lvl2/background_4.png");
+  background-size: cover;
+}
+
+.Background-lvl2-foreground-5 {
+  z-index: 9;
+  background-image: url("/static/lvl2/background_5.png");
+  background-size: 100% 100%;
+  background-position: bottom;
+}
+
+.Background-lvl3-sky-1 {
+  z-index: 5;
+  background-image: url("/static/lvl3/background_1.png");
+  background-size: cover;
+}
+
+.Background-lvl3-outline-2 {
+  z-index: 6;
+  background-image: url("/static/lvl3/background_2.png");
+  background-size: cover;
+}
+
+.Background-lvl3-desert-3 {
+  z-index: 7;
+  background-image: url("/static/lvl3/background_3.png");
+  background-size: cover;
+}
+
+.Background-lvl3-decor-4 {
+  z-index: 8;
+  background-image: url("/static/lvl3/background_4.png");
+  background-size: cover;
+}
+
+.Background-lvl3-foreground-5 {
+  z-index: 9;
+  background-image: url("/static/lvl3/background_5.png");
+  background-size: 100% 100%;
+  background-position: bottom;
 }

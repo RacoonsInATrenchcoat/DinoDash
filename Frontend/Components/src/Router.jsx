@@ -7,17 +7,25 @@ import AdminPage from "./Pages/AdminPage";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,                            // Navbar layout
+    element: <Layout />,  // ✅ Layout is already wrapped in AppContextProvider
     children: [
-      { index: true, element: <HomePage /> },           // Default to home page
+      { index: true, element: <HomePage /> },
       { path: "highscorespage", element: <HighScoresPage /> },
-      { path: "adminpage", element: <AdminPage /> },        // Protected later
+      //{ path: "adminpage", element: <AdminPage /> },
     ],
   },
 ]);
 
+
+
 const AppRouter = () => {
-  return <RouterProvider router={router} />;
+
+  try {
+    return <RouterProvider router={router} />;
+  } catch (error) {
+    console.error("❌ RouterProvider failed to mount:", error);
+    return <div>Router failed to load</div>;
+  }
 };
 
 export default AppRouter;

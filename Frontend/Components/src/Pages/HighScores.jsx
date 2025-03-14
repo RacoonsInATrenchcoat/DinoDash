@@ -1,50 +1,79 @@
 import React, { useEffect, useState } from "react";
-import { getHighScores } from "../CRUD";
+import { getHighScoresPaginated } from "../CRUD";
+import { useMobileContext } from "../MobileMode";
 
 const HighScoresPage = () => {
-  const [scores, setScores] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const scoresPerPage = 50;
+  const [scores, setScores] = useState([]); // Stores paginated scores
+  const [lastScore, setLastScore] = useState(null); // Track last score for pagination
+  const [hasMore, setHasMore] = useState(true); // Detect if there's a next page
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1); // Track current page number
+  const isMobile = useMobileContext();
+  const scoresPerPage = isMobile ? 5 : 10; // Limit to 10 items per page
 
   useEffect(() => {
     fetchScores();
-  }, [currentPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   const fetchScores = async () => {
-    const allScores = await getHighScores();
-    const sortedScores = Object.entries(allScores) // Convert object to array
-      .flatMap(([username, userScores]) =>
-        Object.entries(userScores).map(([scoreId, { score, timestamp }]) => ({
-          id: scoreId,
-          username,
-          score,
-          timestamp,
-        }))
-      )
-      .sort((a, b) => b.score - a.score); // Sort by highest score
-    
-    const startIndex = (currentPage - 1) * scoresPerPage;
-    const paginatedScores = sortedScores.slice(startIndex, startIndex + scoresPerPage);
-    setScores(paginatedScores);
+    try {
+      setLoading(true);
+      const { scores: fetchedScores, lastScore: newLastScore, hasNext } =
+        await getHighScoresPaginated(lastScore, scoresPerPage);
+      if (fetchedScores.length > 0) {
+        setScores(fetchedScores);
+        setLastScore(newLastScore);
+        setHasMore(hasNext);
+      } else {
+        console.warn("No scores available.");
+        setScores([]); // Ensure we show "No scores available"
+      }
+    } catch (error) {
+      console.error("Error fetching scores:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div>
-      <h2>High Scores</h2>
-      <ul className="ListedScores">
+    <div className= {isMobile == true ? "mobile-high-score-container d-flex" : "high-score-container d-flex justify-content-center"}>
+      <div className= "Highscore-title d-flex justify-content-center">
+        <h2>High Scores</h2>
+      </div>
+
+      {loading && <p>Loading...</p>}
+
+      <ul className= {isMobile == true ? "mobile-ListedScores" : "ListedScores d-flex flex-column justify-content-center"}>
         {scores.length > 0 ? (
           scores.map((entry, index) => (
             <li key={entry.id}>
-              {index + 1 + (currentPage - 1) * scoresPerPage}. Score: {entry.score}, Username: {entry.username}
+              {index + 1 + (page - 1) * scoresPerPage}. Score: {entry.score}, Username: {entry.username}
             </li>
           ))
         ) : (
           <p>No scores available</p>
         )}
       </ul>
+
+      {/* Pagination Controls */}
       <div className="pagination">
-        {currentPage > 1 && <button onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>}
-        {scores.length === scoresPerPage && <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>}
+        {page > 1 && (
+          <button
+            onClick={() => {
+              setPage(page - 1);
+              setLastScore(null); // Reset lastScore when going back
+            }}
+          >
+            Previous
+          </button>
+        )}
+
+        {hasMore && (
+          <button onClick={() => setPage(page + 1)}>
+            Next
+          </button>
+        )}
       </div>
     </div>
   );

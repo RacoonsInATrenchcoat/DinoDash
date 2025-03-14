@@ -1,18 +1,233 @@
 body {
-  background-color: #1d4d58;
-  font-family: Arial, sans-serif;
-  color: white;
+  height: 100vh;
+  width: 100vw;
 }
+
+.root {
+  background-image: url("/static/Elements/Stone_Background.svg");
+  background-repeat: repeat;
+  background-size: 30%;
+  background-position: center;
+
+  font-family: "Fredoka", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+
+  height: 100vh;
+  width: 100vw;
+
+  font-size: 120%;
+  color: antiquewhite;
+  overflow: hidden;
+}
+
+.mobile-root {
+  background-image: url("/static/Elements/Stone_Background.svg");
+  background-repeat: repeat;
+  background-size: 30%;
+  background-position: center;
+
+  font-family: "Fredoka", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+
+  font-size: 120%;
+  color: antiquewhite;
+  overflow: scroll;
+}
+
+
+.displayfont-text {
+  font-family: "Luckiest Guy", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: antiquewhite;
+  font-size: 150%;
+  text-decoration: none;
+  /*Removing the underline from link*/
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+
 
 .navbar {
-  background-color: #3977b9 !important  /*Needed to overwrite bootstrap*/
+  background-color: grey;
+  background-image:
+    url("/static/Elements/Stone_Background_navbar.svg"),
+    url("/static/Elements/Stone_Background_navbar.svg");
+  /* Two instances */
+
+  background-size: 45vw, 45vw;
+  /* Ensures each is 33.3vw wide & 50px tall */
+  background-position: left center, right center;
+  /* One on the left, one on the right */
+  width: 100vw;
+  height: 5vh;
+  /* Forces height */
+  font-family: "Luckiest Guy", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
 
+
 .navbar .nav-link {
-  color: white
+  font-size: 1.5rem;
+  margin-right: 1vw;
+  color: antiquewhite
 }
 
 .navbar .nav-link:hover {
-  color: #ffcc00
+  color: #ff6237;
 }
 
+.mobile-nav-link {
+  text-decoration: none;
+  color: antiquewhite;
+}
+
+.mobile-link-container {
+  background-image: url("/static/Elements/Wooden_Button_3.svg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2vh;
+  text-wrap: wrap;
+  position: relative;
+  z-index: 10;
+  height: 10vh;
+  width: 15vw;
+}
+
+.mobile-navBarDivider {
+  border: antiquewhite 1px solid;
+  height: 100%;
+}
+
+.navBarDivider {
+  display: none;
+}
+
+.vine {
+  position: absolute;
+  left: 0px;
+  top: 30px;
+  z-index: 10;
+  width: 100vw;
+  height: 100%;
+  aspect-ratio: auto;
+
+  background-image: url("/static/Elements/Vine.svg");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: 0 0;
+  image-rendering: pixelated;
+}
+
+.mobile-vine {
+  position: absolute;
+  left: 0px;
+  top: 1vh;
+  z-index: 10;
+  width: 100vw;
+  height: 100%;
+  aspect-ratio: auto;
+
+  background-image: url("/static/Elements/Vine.svg");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: 0 0;
+  image-rendering: pixelated;
+}
+
+.layout-container {
+  width: 100vw;
+}
+
+.navbar-left {
+  position: relative;
+  left: 1vw;
+  width: 25vw;
+}
+
+.mobile-navbar-left {
+  position: relative;
+  top: 5vh;
+  left: 1vw;
+  width: 25vw;
+}
+
+.navbar-center {
+  width: 50vw;
+}
+
+.mobile-navbar-center {
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  top: 0;
+  width: 50vw;
+}
+
+.navbar-right {
+  width: 25vw;
+}
+
+.mobile-navbar-right {
+  position: relative;
+  top: 1vh;
+  right: 1vw;
+  width: 25vw;
+
+  display: flex;
+  justify-content: end;
+}
+
+.outlet {
+  height: 95vh;
+}
+
+.homepage-container {
+  height: 95vh;
+}
+
+br {
+  display: block;
+  content: "";
+  margin-bottom: 10px;
+  /* Adjusts spacing between lines */
+}
+
+.orientation-overlay {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 1);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  text-align: center;
+  z-index: 9999; /* Ensure it's the topmost layer */
+  pointer-events: none; /* Prevent blocking interactions underneath */
+}
+
+.portait-dino-warning{
+  width: 50%;
+}
