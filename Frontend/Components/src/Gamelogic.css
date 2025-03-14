@@ -201,9 +201,8 @@
   white-space: nowrap;
   overflow: hidden;
   z-index: 10;
+  width: 150px;
 
-  height: 100%;
-  width: 100%;
   background-image: url("/static/Elements/Wooden_Button_3.svg");
   background-size: 100%;
   background-repeat: no-repeat;
@@ -223,8 +222,7 @@
   font-size: 1rem;
   padding: 2vw;
   text-align: right;
-  margin-top: 0;
-  margin-bottom: 0;
+  margin: 20px;
 }
 
 /*Navbar Volume slider*/

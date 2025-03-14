@@ -100,12 +100,13 @@ body {
 
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-bottom: 2vh;
   text-wrap: wrap;
   position: relative;
   z-index: 10;
-  height: 110%;
-  width: 110%;
+  height: 10vh;
+  width: 15vw;
 }
 
 .mobile-navBarDivider {
@@ -163,7 +164,7 @@ body {
   position: relative;
   top: 5vh;
   left: 1vw;
-  width: 25vh;
+  width: 25vw;
 }
 
 .navbar-center {
@@ -176,7 +177,7 @@ body {
   justify-content: center;
 
   top: 0;
-  width: 50vh;
+  width: 50vw;
 }
 
 .navbar-right {
@@ -187,10 +188,7 @@ body {
   position: relative;
   top: 1vh;
   right: 1vw;
-  width: 25vh;
-  height: 10vh;
-  max-width: 35vw;
-  max-height: 20vh;
+  width: 25vw;
 
   display: flex;
   justify-content: end;
